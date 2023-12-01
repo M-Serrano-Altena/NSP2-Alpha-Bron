@@ -29,12 +29,11 @@ class Measurement:
         plt.savefig(f"{self.title}.png")
         plt.show()
     
-    def data_fit(self, start_expmu, start_gauss1_mu, start_gauss2_mu):
+    def data_fit(self, start_expmu, start_gauss1_mu):
         def exp_gauss(x, amplitude, mu, sigma, labda, gauss1_amplitude, gauss1_mu, gauss1_sigma):
             gauss1 = gauss1_amplitude* sp.stats.norm(loc=gauss1_mu, scale=gauss1_sigma).pdf(x)
-            gauss2 = gauss2_amplitude* sp.stats.norm(loc=gauss2_mu, scale=gauss2_sigma).pdf(x)
             exp_gauss = amplitude * sp.stats.exponnorm.pdf(x, K=1/(sigma*labda), loc=mu, scale=sigma)
-            return exp_gauss + gauss1 + gauss2
+            return exp_gauss + gauss1
         
         self.model_signal = models.Model(exp_gauss, nan_policy='propagate')
         self.model_signal.set_param_hint('sigma', min=0)
@@ -45,8 +44,6 @@ class Measurement:
         self.fit_mu_err = self.result_signal.params['mu'].stderr
         self.fit_gauss1mu = self.result_signal.params['gauss1_mu'].value
         self.fit_gauss1mu_err = self.result_signal.params['gauss1_mu'].stderr
-        self.fit_gauss2mu = self.result_signal.params['gauss2_mu'].value
-        self.fit_gauss2mu_err = self.result_signal.params['gauss2_mu'].stderr
 
     @staticmethod
     def volt_to_energy(voltage, a):
@@ -56,5 +53,5 @@ class Measurement:
 
 
 meas_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000)
-meas_vacuum.data_fit(start_expmu=200, start_gauss1_mu=200, start_gauss2_mu=200)
+meas_vacuum.data_fit(start_expmu=200, start_gauss1_mu=200)
 meas_vacuum.plot()
