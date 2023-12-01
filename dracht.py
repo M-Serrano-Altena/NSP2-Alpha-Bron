@@ -53,5 +53,46 @@ class Measurement:
 
 
 meas_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000)
-meas_vacuum.data_fit(start_expmu=200, start_gauss1_mu=200)
+meas_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
 meas_vacuum.plot()
+
+meas_air_100mbar = Measurement("alfa bron lucht 100 mbar.csv", end_point=1000)
+meas_air_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_100mbar.plot()
+
+meas_air_200mbar = Measurement("alfa bron lucht 200 mbar.csv", end_point=1000)
+meas_air_200mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_200mbar.plot()
+
+meas_air_300mbar = Measurement("alfa bron lucht 300 mbar.csv", end_point=1000)
+meas_air_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_300mbar.plot()
+
+meas_air_400mbar = Measurement("alfa bron lucht 400 mbar.csv", end_point=1000)
+meas_air_400mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_400mbar.plot()
+
+meas_air_500mbar = Measurement("alfa bron lucht 500 mbar.csv", end_point=1000)
+meas_air_500mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_500mbar.plot()
+
+meas_air_600mbar = Measurement("alfa bron lucht 600 mbar.csv", end_point=1000)
+meas_air_600mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_600mbar.plot()
+
+meas_air_700mbar = Measurement("alfa bron lucht 700 mbar.csv", end_point=1000)
+meas_air_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_700mbar.plot()
+
+meas_air_800mbar = Measurement("alfa bron lucht 800 mbar.csv", end_point=1000)
+meas_air_800mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_800mbar.plot()
+
+meas_air_900mbar = Measurement("alfa bron lucht 900 mbar.csv", end_point=1000)
+meas_air_900mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_900mbar.plot()
+
+meas_air_1000mbar = Measurement("alfa bron lucht 1000 mbar.csv", end_point=1000)
+meas_air_1000mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_1000mbar.plot()
+
