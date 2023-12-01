@@ -1,4 +1,4 @@
-# NSP2-Alpha-Bron
+# NSP2-Alpha-Ray
 
 To add this repository:
 Go to a folder that you want to add a folder with all files in this repository.
