@@ -3,6 +3,7 @@
 ## Documentation
 https://m-serrano-altena.github.io/NSP2-Alpha-Ray/
 
+## Add repository
 To add this repository:
 Go to a folder that you want to add a folder with all files in this repository.
 In the terminal of vscode:
@@ -21,6 +22,7 @@ In the 'alpha' environment:
 poetry install
 ```
 
+## Install poetry
 If poetry isn't installed:
 Open anaconda prompt:
 ```
