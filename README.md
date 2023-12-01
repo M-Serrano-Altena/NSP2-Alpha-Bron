@@ -7,13 +7,13 @@ In the terminal of vscode:
 git clone https://github.com/M-Serrano-Altena/NSP2-Alpha-Bron.git
 ```
 
-Then create the 'alfa' environment:
+Then create the 'alpha' environment:
 ```
-conda create -n alfa python=3.10
-conda activate alfa
+conda create -n alpha python=3.10
+conda activate alpha
 ```
 
-In the 'alfa' environment:
+In the 'alpha' environment:
 ```
 poetry install
 ```
