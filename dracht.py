@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 from lmfit import models
 import numpy as np
 import scipy as sp
+import os
+
+python_file_path = os.getcwd()
+
+os.chdir(os.path.join(python_file_path, "CSV data"))
 
 
 class Measurement:
@@ -26,7 +31,13 @@ class Measurement:
         plt.ylabel('Counts')
         plt.plot(self.df_diagram['x0000'], self.result_signal.best_fit, 'r', label='best fit')
         plt.legend(loc='upper right')
+
+        # go to fits folder to save fit
+        os.chdir(os.path.join(python_file_path, "Fits"))
         plt.savefig(f"{self.title}_fit.png")
+
+        # go to csv folder to read csv
+        os.chdir(os.path.join(python_file_path, "CSV data"))
         plt.show()
     
     def data_fit(self, start_expmu, start_gauss1_mu):
@@ -51,14 +62,14 @@ class Measurement:
         return  (voltage)/a
         
 
-
+os.chdir(os.path.join(python_file_path, "CSV data"))
 meas_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000)
 meas_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
 meas_vacuum.plot()
 
 # look at
 meas_air_100mbar = Measurement("alfa bron lucht 100 mbar.csv", end_point=1000)
-meas_air_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
 meas_air_100mbar.plot()
 
 meas_air_200mbar = Measurement("alfa bron lucht 200 mbar.csv", end_point=1000)
@@ -67,17 +78,17 @@ meas_air_200mbar.plot()
 
 # look at
 meas_air_300mbar = Measurement("alfa bron lucht 300 mbar.csv", end_point=1000)
-meas_air_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
 meas_air_300mbar.plot()
 
-# needs fixing
+# look at
 meas_air_400mbar = Measurement("alfa bron lucht 400 mbar.csv", end_point=1000)
-meas_air_400mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_400mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
 meas_air_400mbar.plot()
 
-# needs fixing
+# look at
 meas_air_500mbar = Measurement("alfa bron lucht 500 mbar.csv", end_point=1000)
-meas_air_500mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_500mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
 meas_air_500mbar.plot()
 
 # needs fixing
@@ -95,9 +106,9 @@ meas_air_800mbar = Measurement("alfa bron lucht 800 mbar.csv", end_point=1000)
 meas_air_800mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
 meas_air_800mbar.plot()
 
-# meas_air_900mbar = Measurement("alfa bron lucht 900 mbar.csv", end_point=1000)
-# meas_air_900mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-# meas_air_900mbar.plot()
+meas_air_900mbar = Measurement("alfa bron lucht 900 mbar.csv", end_point=1000)
+meas_air_900mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+meas_air_900mbar.plot()
 
 # meas_air_1000mbar = Measurement("alfa bron lucht 1000 mbar.csv", end_point=1000)
 # meas_air_1000mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
