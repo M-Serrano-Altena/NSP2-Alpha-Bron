@@ -26,7 +26,7 @@ class Measurement:
         plt.ylabel('Counts')
         plt.plot(self.df_diagram['x0000'], self.result_signal.best_fit, 'r', label='best fit')
         plt.legend(loc='upper right')
-        plt.savefig(f"{self.title}.png")
+        plt.savefig(f"{self.title}_fit.png")
         plt.show()
     
     def data_fit(self, start_expmu, start_gauss1_mu):
