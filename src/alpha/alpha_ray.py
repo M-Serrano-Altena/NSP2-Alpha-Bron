@@ -101,7 +101,7 @@ class Measurement:
 
         Args:
             voltage: voltage to be converted
-            a: converstion factor
+            a: conversion factor
 
         Returns:
             energy value corresponding to the input voltage
