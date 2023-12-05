@@ -124,13 +124,13 @@ class Measurement:
     @classmethod
     def energy_fit(cls):
 
-        def exp_decay(x, a, b):
-            energy = a * b**x
+        def exp_decay(x, a, b, c):
+            energy = 1 - a * b**(-x) + c
             return energy
         
         energy_weight = [1/energy_err for energy_err in cls.energy_error]
         cls.model_energy = models.Model(exp_decay, nan_policy='propagate')
-        cls.result_energy = cls.model_energy.fit(cls.energy, x=cls.path_length_list, weights=energy_weight, a=0.1, b=0.2)
+        cls.result_energy = cls.model_energy.fit(cls.energy, x=cls.path_length_list, weights=energy_weight, a=0.1, b=0.2, c=1)
         print(cls.result_energy.fit_report())
 
 
