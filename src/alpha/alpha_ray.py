@@ -203,6 +203,7 @@ class Measurement:
         standard_length = 3
         standard_pressure = 1 # in bar
         path_length = standard_length * np.cbrt(pressure/standard_pressure)
+        
         pressure_error = 1
         path_length_error = pressure_error * standard_length / (3 * np.cbrt(standard_pressure * pressure ** 2))
         return path_length
