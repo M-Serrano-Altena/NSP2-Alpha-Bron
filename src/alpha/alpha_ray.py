@@ -30,6 +30,8 @@ class Measurement:
     energy = []
     energy_error = []
 
+    stopping_power_list = []
+
     def __init__(self, data_file: str, pressure: int, end_point: int = None):
         """read the data of given csv file and put it in a dataframe
 
@@ -125,13 +127,15 @@ class Measurement:
     def energy_fit(cls):
 
         def exp_decay(x, a, b, c):
-            energy = 1 - a * b**(-x) + c
+            energy = c - a * b**x
             return energy
         
         energy_weight = [1/energy_err for energy_err in cls.energy_error]
         cls.model_energy = models.Model(exp_decay, nan_policy='propagate')
-        cls.result_energy = cls.model_energy.fit(cls.energy, x=cls.path_length_list, weights=energy_weight, a=0.1, b=0.2, c=1)
+        cls.result_energy = cls.model_energy.fit(cls.energy, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
         print(cls.result_energy.fit_report())
+        cls.a = cls.result_energy.params['a'].value
+        cls.b = cls.result_energy.params['b'].value
 
 
     @classmethod
@@ -183,7 +187,29 @@ class Measurement:
         standard_pressure = 1 # in bar
         path_length = standard_length * np.cbrt(pressure/standard_pressure)
         return path_length
-        
+    
+    @classmethod
+    def stopping_power_function(cls, x):
+        # stopping power = - dE/dx
+        stopping_power = cls.a* np.log(cls.b) * cls.b**x
+        return stopping_power
+    
+    @classmethod
+    def stopping_power_plot(cls):
+        cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
+        fig = plt.figure("(S,x)_diagram.png")
+        plt.plot(cls.path_length_list, cls.stopping_power_list, 'r')
+        plt.xlabel('path length (cm)')
+        plt.ylabel('Stopping power (MeV/cm)')
+
+        # go to fits folder to save fit
+        os.chdir(os.path.join(python_file_path, "Fits"))
+        plt.savefig("(S,x)_diagram.png")
+
+        # go to csv folder to read csv
+        os.chdir(os.path.join(python_file_path, "CSV data"))
+        plt.show()
+    
 
 def run():
     meas1_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000, pressure = 21)
@@ -228,6 +254,7 @@ def run():
 
     Measurement.energy_fit()
     Measurement.energy_plot()
+    Measurement.stopping_power_plot()
 
 
 if __name__ == "__main__":
