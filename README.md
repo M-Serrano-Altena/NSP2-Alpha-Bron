@@ -8,7 +8,7 @@ To add this repository:
 Go to a folder that you want to add a folder with all files in this repository.
 In the terminal of vscode:
 ```
-git clone https://github.com/M-Serrano-Altena/NSP2-Alpha-Bron.git
+git clone https://github.com/M-Serrano-Altena/NSP2-Alpha-Ray.git
 ```
 
 Then create the 'alpha' environment:
