@@ -125,8 +125,20 @@ class Measurement:
 
     @classmethod
     def energy_fit(cls):
+        """fit of the energy diagram with the exponential decay function
+        """        
+        def exp_decay(x, a: float, b:float, c: float) -> float:
+            """Exponential decay function to fit for the (energy, path length) diagram
 
-        def exp_decay(x, a, b, c):
+            Args:
+                x: The path length
+                a: a constant times the exponential
+                b: decay factor
+                c: extra translation of the function
+
+            Returns:
+                Energy of the alpha particle with a given path length
+            """            
             energy = c - a * b**x
             return energy
         
@@ -140,6 +152,8 @@ class Measurement:
 
     @classmethod
     def energy_plot(cls):
+        """Plot a diagram of the energy of the alpha particle against the path length 
+        """        
         fig = plt.figure("(E,x)_diagram.png")
         plt.errorbar(cls.path_length_list, cls.energy, yerr=cls.energy_error, fmt='bo', ecolor='k', label='data')
         plt.plot(cls.path_length_list, cls.result_energy.best_fit, 'r', label='best fit')
@@ -156,6 +170,8 @@ class Measurement:
         plt.show()
     
     def calc_conversion_factor(self):
+        """calculate the conversion factor to go from a voltage to an energy
+        """        
         energy_alfa = 5.48 # Mev
         Measurement.conversion_factor = energy_alfa/self.fit_gauss1mu
 
@@ -189,13 +205,23 @@ class Measurement:
         return path_length
     
     @classmethod
-    def stopping_power_function(cls, x):
+    def stopping_power_function(cls, x: float) -> float:
+        """stopping power function, which is minus the derivative of the energy function with respect to the path length
+
+        Args:
+            x: The path length
+
+        Returns:
+            stopping power with a given path length
+        """        
         # stopping power = - dE/dx
         stopping_power = cls.a* np.log(cls.b) * cls.b**x
         return stopping_power
     
     @classmethod
     def stopping_power_plot(cls):
+        """Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram
+        """        
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
         fig = plt.figure("(S,x)_diagram.png")
         plt.plot(cls.path_length_list, cls.stopping_power_list, 'r')
@@ -212,6 +238,8 @@ class Measurement:
     
 
 def run():
+    """runs the experiment with different pressures
+    """    
     meas1_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000, pressure = 21)
     meas1_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
     # meas1_vacuum.plot_fit()
