@@ -226,8 +226,8 @@ class Measurement:
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
         fig = plt.figure("(S,x)_diagram.png")
         plt.plot(cls.path_length_list, cls.stopping_power_list, 'r')
-        plt.xlabel('path length (cm)')
-        plt.ylabel('Stopping power (MeV/cm)')
+        plt.xlabel("path length (cm)")
+        plt.ylabel("Stopping power (MeV/cm)")
 
         # go to fits folder to save fit
         os.chdir(os.path.join(python_file_path, "Fits"))
