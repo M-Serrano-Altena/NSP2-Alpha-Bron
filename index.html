@@ -226,6 +226,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.alpha_range" class="md-nav__link">
+    <span class="md-ellipsis">
+      alpha_range()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.calc_conversion_factor" class="md-nav__link">
     <span class="md-ellipsis">
       calc_conversion_factor()
@@ -271,6 +280,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.exp_decay" class="md-nav__link">
+    <span class="md-ellipsis">
+      exp_decay()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.pressure_to_path_length" class="md-nav__link">
     <span class="md-ellipsis">
       pressure_to_path_length()
@@ -308,6 +326,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.measurement_air" class="md-nav__link">
+    <span class="md-ellipsis">
+      measurement_air()
+    </span>
+  </a>
   
 </li>
       
@@ -383,6 +410,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.alpha_range" class="md-nav__link">
+    <span class="md-ellipsis">
+      alpha_range()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.calc_conversion_factor" class="md-nav__link">
     <span class="md-ellipsis">
       calc_conversion_factor()
@@ -428,6 +464,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.exp_decay" class="md-nav__link">
+    <span class="md-ellipsis">
+      exp_decay()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.pressure_to_path_length" class="md-nav__link">
     <span class="md-ellipsis">
       pressure_to_path_length()
@@ -465,6 +510,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.measurement_air" class="md-nav__link">
+    <span class="md-ellipsis">
+      measurement_air()
+    </span>
+  </a>
   
 </li>
       
@@ -534,8 +588,7 @@
 
             <details class="quote">
               <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 20</span>
-<span class="normal"> 21</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 21</span>
 <span class="normal"> 22</span>
 <span class="normal"> 23</span>
 <span class="normal"> 24</span>
@@ -751,7 +804,32 @@
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Measurement</span><span class="p">:</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Measurement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Can calculate a fit of a measurement and plot it. Can also convert a voltage to an energy value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -760,8 +838,11 @@
 
     <span class="n">volt</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">volt_error</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">conversion_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># placeholder value</span>
+    <span class="n">energy_alpha_init</span> <span class="o">=</span> <span class="mf">5.48</span> <span class="c1"># Mev</span>
     <span class="n">energy</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">energy_error</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">stopping_power_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -857,11 +938,7 @@
         <span class="n">Measurement</span><span class="o">.</span><span class="n">energy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volt_to_energy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span><span class="p">))</span>
         <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volt_to_energy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu_err</span><span class="p">))</span>
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">energy_fit</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;fit of the energy diagram with the exponential decay function</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
-        <span class="k">def</span> <span class="nf">exp_decay</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">exp_decay</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Exponential decay function to fit for the (energy, path length) diagram</span>
 
 <span class="sd">            Args:</span>
@@ -876,21 +953,29 @@
             <span class="n">energy</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="n">x</span>
             <span class="k">return</span> <span class="n">energy</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">energy_fit</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;fit of the energy diagram with the exponential decay function</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
         <span class="n">energy_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">energy_err</span> <span class="k">for</span> <span class="n">energy_err</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_error</span><span class="p">]</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">energy_weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">fit_report</span><span class="p">())</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
 
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">energy_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a diagram of the energy of the alpha particle against the path length </span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
+
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;(E,x)_diagram.png&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">best_fit</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best fit&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;E(x) = c - a*b^x&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;path length (cm)&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (MeV)&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
@@ -906,8 +991,7 @@
     <span class="k">def</span> <span class="nf">calc_conversion_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;calculate the conversion factor to go from a voltage to an energy</span>
 <span class="sd">        &quot;&quot;&quot;</span>        
-        <span class="n">energy_alfa</span> <span class="o">=</span> <span class="mf">5.48</span> <span class="c1"># Mev</span>
-        <span class="n">Measurement</span><span class="o">.</span><span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">energy_alfa</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span>
+        <span class="n">Measurement</span><span class="o">.</span><span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_alpha_init</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">volt_to_energy</span><span class="p">(</span><span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -936,6 +1020,9 @@
         <span class="n">standard_length</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="n">standard_pressure</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># in bar</span>
         <span class="n">path_length</span> <span class="o">=</span> <span class="n">standard_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">pressure</span><span class="o">/</span><span class="n">standard_pressure</span><span class="p">)</span>
+
+        <span class="n">pressure_error</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">path_length_error</span> <span class="o">=</span> <span class="n">pressure_error</span> <span class="o">*</span> <span class="n">standard_length</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">standard_pressure</span> <span class="o">*</span> <span class="n">pressure</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">path_length</span>
 
     <span class="nd">@classmethod</span>
@@ -955,12 +1042,16 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">stopping_power_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>    
+        <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;(S,x)_diagram.png&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;path length (cm)&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Stopping power (MeV/cm)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power of measured data&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;S(x) = dE/dx = ln(b)*a*b^x&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;path length (cm)&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Stopping power (MeV/cm)&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
         <span class="c1"># go to fits folder to save fit</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_file_path</span><span class="p">,</span> <span class="s2">&quot;Fits&quot;</span><span class="p">))</span>
@@ -969,6 +1060,17 @@
         <span class="c1"># go to csv folder to read csv</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_file_path</span><span class="p">,</span> <span class="s2">&quot;CSV data&quot;</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">alpha_range</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;calculate the range of an alpha particle at atmospheric pressure</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the range of the alpha particle</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="c1"># we could also use c - E0 instead of a</span>
+        <span class="n">range_alpha_ray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">range_alpha_ray</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -1060,11 +1162,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
@@ -1083,7 +1181,11 @@
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pressure</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_point</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pressure</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_point</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;read the data of given csv file and put it in a dataframe</span>
 
 <span class="sd">    Args:</span>
@@ -1119,6 +1221,77 @@
 
 
 
+<h3 id="src.alpha.alpha_ray.Measurement.alpha_range" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">alpha_range</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>calculate the range of an alpha particle at atmospheric pressure</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the range of the alpha particle</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">alpha_range</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate the range of an alpha particle at atmospheric pressure</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the range of the alpha particle</span>
+<span class="sd">    &quot;&quot;&quot;</span>        
+    <span class="c1"># we could also use c - E0 instead of a</span>
+    <span class="n">range_alpha_ray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">range_alpha_ray</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
 <h3 id="src.alpha.alpha_ray.Measurement.calc_conversion_factor" class="doc doc-heading">
           <code class="highlight language-python"><span class="n">calc_conversion_factor</span><span class="p">()</span></code>
 
@@ -1131,15 +1304,13 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_conversion_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_conversion_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate the conversion factor to go from a voltage to an energy</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
-    <span class="n">energy_alfa</span> <span class="o">=</span> <span class="mf">5.48</span> <span class="c1"># Mev</span>
-    <span class="n">Measurement</span><span class="o">.</span><span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">energy_alfa</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span>
+    <span class="n">Measurement</span><span class="o">.</span><span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_alpha_init</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1208,11 +1379,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
 <span class="normal"> 87</span>
@@ -1252,7 +1419,11 @@
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_expmu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">start_gauss1_mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_expmu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">start_gauss1_mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;fits the measured data with an exponential gauss with an added normal gauss</span>
 
 <span class="sd">    Args:</span>
@@ -1321,11 +1492,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
@@ -1338,7 +1505,11 @@
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the fit calculated in the data_fit function. Requires the data_fit function to have been run before this function</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
@@ -1384,55 +1555,27 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">energy_fit</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;fit of the energy diagram with the exponential decay function</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
-    <span class="k">def</span> <span class="nf">exp_decay</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exponential decay function to fit for the (energy, path length) diagram</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            x: The path length</span>
-<span class="sd">            a: a constant times the exponential</span>
-<span class="sd">            b: decay factor</span>
-<span class="sd">            c: extra translation of the function</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Energy of the alpha particle with a given path length</span>
-<span class="sd">        &quot;&quot;&quot;</span>            
-        <span class="n">energy</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="n">x</span>
-        <span class="k">return</span> <span class="n">energy</span>
-
     <span class="n">energy_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">energy_err</span> <span class="k">for</span> <span class="n">energy_err</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_error</span><span class="p">]</span>
-    <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">energy_weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">fit_report</span><span class="p">())</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1461,12 +1604,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -1478,13 +1616,24 @@
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">energy_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a diagram of the energy of the alpha particle against the path length </span>
-<span class="sd">    &quot;&quot;&quot;</span>        
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
+
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;(E,x)_diagram.png&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">best_fit</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best fit&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;E(x) = c - a*b^x&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;path length (cm)&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy (MeV)&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
@@ -1496,6 +1645,153 @@
     <span class="c1"># go to csv folder to read csv</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_file_path</span><span class="p">,</span> <span class="s2">&quot;CSV data&quot;</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="src.alpha.alpha_ray.Measurement.exp_decay" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">exp_decay</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Exponential decay function to fit for the (energy, path length) diagram</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>x</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The path length</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>a</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>a constant times the exponential</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>b</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>decay factor</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>c</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>extra translation of the function</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Energy of the alpha particle with a given path length</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">exp_decay</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exponential decay function to fit for the (energy, path length) diagram</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: The path length</span>
+<span class="sd">            a: a constant times the exponential</span>
+<span class="sd">            b: decay factor</span>
+<span class="sd">            c: extra translation of the function</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Energy of the alpha particle with a given path length</span>
+<span class="sd">        &quot;&quot;&quot;</span>            
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="n">x</span>
+        <span class="k">return</span> <span class="n">energy</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1578,21 +1874,24 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">pressure_to_path_length</span><span class="p">(</span><span class="n">pressure</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;converts a given pressure to a path length</span>
 
@@ -1606,6 +1905,9 @@
     <span class="n">standard_length</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">standard_pressure</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># in bar</span>
     <span class="n">path_length</span> <span class="o">=</span> <span class="n">standard_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">pressure</span><span class="o">/</span><span class="n">standard_pressure</span><span class="p">)</span>
+
+    <span class="n">pressure_error</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">path_length_error</span> <span class="o">=</span> <span class="n">pressure_error</span> <span class="o">*</span> <span class="n">standard_length</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">standard_pressure</span> <span class="o">*</span> <span class="n">pressure</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">path_length</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -1689,19 +1991,19 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">stopping_power_function</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;stopping power function, which is minus the derivative of the energy function with respect to the path length</span>
 
@@ -1742,31 +2044,39 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">stopping_power_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram</span>
-<span class="sd">    &quot;&quot;&quot;</span>        
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>    
+    <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;(S,x)_diagram.png&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;path length (cm)&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Stopping power (MeV/cm)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power of measured data&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;S(x) = dE/dx = ln(b)*a*b^x&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;path length (cm)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Stopping power (MeV/cm)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="c1"># go to fits folder to save fit</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_file_path</span><span class="p">,</span> <span class="s2">&quot;Fits&quot;</span><span class="p">))</span>
@@ -1857,18 +2167,18 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">volt_to_energy</span><span class="p">(</span><span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;converts a voltage to an energy value</span>
 
@@ -1901,44 +2211,19 @@
 
 
 
-<h2 id="src.alpha.alpha_ray.run" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">run</span><span class="p">()</span></code>
+<h2 id="src.alpha.alpha_ray.measurement_air" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">measurement_air</span><span class="p">()</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>runs the experiment with different pressures</p>
+      <p>runs the experiment with different pressures in air</p>
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
@@ -1958,8 +2243,34 @@
 <span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
-<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;runs the experiment with different pressures</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_air</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;runs the experiment with different pressures in air</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">meas1_vacuum</span> <span class="o">=</span> <span class="n">Measurement</span><span class="p">(</span><span class="s2">&quot;alfa bron 21 mbar.csv&quot;</span><span class="p">,</span> <span class="n">end_point</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">pressure</span> <span class="o">=</span> <span class="mi">21</span><span class="p">)</span>
     <span class="n">meas1_vacuum</span><span class="o">.</span><span class="n">data_fit</span><span class="p">(</span><span class="n">start_expmu</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">start_gauss1_mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
@@ -2004,6 +2315,38 @@
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_fit</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_plot</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">stopping_power_plot</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in air with atmosiferic pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.alpha.alpha_ray.run" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">run</span><span class="p">()</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Runs measurements with different gasses</p>
+
+          <details class="quote">
+            <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs measurements with different gasses</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">measurement_air</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
