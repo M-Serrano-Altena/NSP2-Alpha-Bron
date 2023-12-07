@@ -127,7 +127,7 @@ class Measurement:
         Measurement.energy.append(self.volt_to_energy(self.fit_gauss1mu))
         Measurement.energy_error.append(self.volt_to_energy(self.fit_gauss1mu_err))
 
-    def exp_decay(x, a: float, b:float, c: float) -> float:
+    def exp_decay(x: float, a: float, b:float, c: float) -> float:
             """Exponential decay function to fit for the (energy, path length) diagram
 
             Args:
@@ -251,7 +251,12 @@ class Measurement:
         plt.show()
     
     @classmethod
-    def alpha_range(cls):
+    def alpha_range(cls) -> float:
+        """calculate the range of an alpha particle at atmospheric pressure
+
+        Returns:
+            the range of the alpha particle
+        """        
         # we could also use c - E0 instead of a
         range_alpha_ray = np.log(cls.c/(cls.a))/np.log(cls.b)
         return range_alpha_ray
