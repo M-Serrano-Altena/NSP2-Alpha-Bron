@@ -278,48 +278,48 @@ def measurement_air():
     """runs the experiment with different pressures in air
     """
 
-    meas1_air_low_list = [20, 99, 199, 299, 399, 499, 599, 699, 799, 899]
-    meas1_air_high_list = [22, 114, 213, 314, 415, 515, 614, 714, 814, 971]
+    air_start_list = [20, 99, 199, 299, 399, 499, 599, 699, 799, 899]
+    air_end_list = [22, 114, 213, 314, 415, 515, 614, 714, 814, 971]
 
-    meas1_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000, pressure = 21)
+    meas1_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000, pressure_start = air_start_list[0], pressure_end=air_end_list[0])
     meas1_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
     # meas1_vacuum.plot_fit()
 
-    meas1_air_100mbar = Measurement("alfa bron lucht 100 mbar.csv", end_point=1000, pressure_start = 100)
-    meas1_air_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    # meas1_air_100mbar.plot_fit()
+    air_100mbar = Measurement("alfa bron lucht 100 mbar.csv", end_point=1000, pressure_start = air_start_list[1], pressure_end=air_end_list[1])
+    air_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
+    # air_100mbar.plot_fit()
 
-    meas1_air_200mbar = Measurement("alfa bron lucht 200 mbar.csv", end_point=1000, pressure_start = 200)
-    meas1_air_200mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-    # meas1_air_200mbar.plot_fit()
+    air_200mbar = Measurement("alfa bron lucht 200 mbar.csv", end_point=1000, pressure_start = air_start_list[2], pressure_end=air_end_list[2])
+    air_200mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+    # air_200mbar.plot_fit()
 
-    meas1_air_300mbar = Measurement("alfa bron lucht 300 mbar.csv", end_point=1000, pressure_start = 300)
-    meas1_air_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    # meas1_air_300mbar.plot_fit()
+    air_300mbar = Measurement("alfa bron lucht 300 mbar.csv", end_point=1000, pressure_start = air_start_list[3], pressure_end=air_end_list[3])
+    air_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
+    # air_300mbar.plot_fit()
 
-    meas1_air_400mbar = Measurement("alfa bron lucht 400 mbar.csv", end_point=1000, pressure_start = 400)
-    meas1_air_400mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
-    # meas1_air_400mbar.plot_fit()
+    air_400mbar = Measurement("alfa bron lucht 400 mbar.csv", end_point=1000, pressure_start = air_start_list[4], pressure_end=air_end_list[4])
+    air_400mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
+    # air_400mbar.plot_fit()
 
-    meas1_air_500mbar = Measurement("alfa bron lucht 500 mbar.csv", end_point=1000, pressure_start = 500)
-    meas1_air_500mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
-    # meas1_air_500mbar.plot_fit()
+    air_500mbar = Measurement("alfa bron lucht 500 mbar.csv", end_point=1000, pressure_start = air_start_list[5], pressure_end=air_end_list[5])
+    air_500mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
+    # air_500mbar.plot_fit()
 
-    meas1_air_600mbar = Measurement("alfa bron lucht 600 mbar.csv", end_point=1000, pressure_start = 600)
-    meas1_air_600mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
-    # meas1_air_600mbar.plot_fit()
+    air_600mbar = Measurement("alfa bron lucht 600 mbar.csv", end_point=1000, pressure_start = air_start_list[6], pressure_end=air_end_list[6])
+    air_600mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
+    # air_600mbar.plot_fit()
 
-    meas1_air_700mbar = Measurement("alfa bron lucht 700 mbar.csv", end_point=1000, pressure_start = 700)
-    meas1_air_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # meas1_air_700mbar.plot_fit()
+    air_700mbar = Measurement("alfa bron lucht 700 mbar.csv", end_point=1000, pressure_start = air_start_list[7], pressure_end=air_end_list[7])
+    air_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
+    # air_700mbar.plot_fit()
 
-    meas1_air_800mbar = Measurement("alfa bron lucht 800 mbar.csv", end_point=1000, pressure_start = 800)
-    meas1_air_800mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.12)
-    # meas1_air_800mbar.plot_fit()
+    air_800mbar = Measurement("alfa bron lucht 800 mbar.csv", end_point=1000, pressure_start = air_start_list[8], pressure_end=air_end_list[8])
+    air_800mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.12)
+    # air_800mbar.plot_fit()
 
-    meas1_air_900mbar = Measurement("alfa bron lucht 900 mbar.csv", end_point=1000, pressure_start = 900)
-    meas1_air_900mbar.data_fit(start_expmu=0.022, start_gauss1_mu=0.12)
-    # meas1_air_900mbar.plot_fit()
+    air_900mbar = Measurement("alfa bron lucht 900 mbar.csv", end_point=1000, pressure_start = air_start_list[9], pressure_end=air_end_list[9])
+    air_900mbar.data_fit(start_expmu=0.022, start_gauss1_mu=0.12)
+    # air_900mbar.plot_fit()
 
     Measurement.energy_fit()
     Measurement.energy_plot()
@@ -330,38 +330,38 @@ def measurement_argon():
     """runs the experiment with different pressures in argon
     """
 
-    argon_low_list = [20, 98, 199, 299, 399, 499, 599, 699]
-    argon_high_list = [22, 117, 215, 317, 417, 526, 627, 727]
+    argon_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
+    argon_end_list = [22, 117, 215, 317, 417, 526, 627, 727]
 
-    argon_vacuum = Measurement("alfa bron argon 21 mbar.csv", end_point=1000, pressure = 21)
+    argon_vacuum = Measurement("alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
     argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
     # argon_vacuum.plot_fit()
 
-    argon_100mbar = Measurement("alfa bron argon 100 mbar.csv", end_point=1000, pressure = 100)
+    argon_100mbar = Measurement("alfa bron argon 100 mbar.csv", end_point=1000, pressure_start = argon_start_list[1], pressure_end=argon_end_list[1])
     argon_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
     # argon_100mbar.plot_fit()
 
-    argon_200mbar = Measurement("alfa bron argon 200 mbar.csv", end_point=1000, pressure = 200)
+    argon_200mbar = Measurement("alfa bron argon 200 mbar.csv", end_point=1000, pressure_start = argon_start_list[2], pressure_end=argon_end_list[2])
     argon_200mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
     # argon_200mbar.plot_fit()
 
-    argon_300mbar = Measurement("alfa bron argon 300 mbar.csv", end_point=1000, pressure = 300)
+    argon_300mbar = Measurement("alfa bron argon 300 mbar.csv", end_point=1000, pressure_start = argon_start_list[3], pressure_end=argon_end_list[3])
     argon_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
     # argon_300mbar.plot_fit()
 
-    argon_400mbar = Measurement("alfa bron argon 400 mbar.csv", end_point=1000, pressure = 400)
+    argon_400mbar = Measurement("alfa bron argon 400 mbar.csv", end_point=1000, pressure_start = argon_start_list[4], pressure_end=argon_end_list[4])
     argon_400mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
     # argon_400mbar.plot_fit()
 
-    argon_500mbar = Measurement("alfa bron argon 500 mbar.csv", end_point=1000, pressure = 500)
+    argon_500mbar = Measurement("alfa bron argon 500 mbar.csv", end_point=1000, pressure_start = argon_start_list[5], pressure_end=argon_end_list[5])
     argon_500mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
     # argon_500mbar.plot_fit()
 
-    argon_600mbar = Measurement("alfa bron argon 600 mbar.csv", end_point=1000, pressure = 600)
+    argon_600mbar = Measurement("alfa bron argon 600 mbar.csv", end_point=1000, pressure_start = argon_start_list[6], pressure_end=argon_end_list[6])
     argon_600mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
     # argon_600mbar.plot_fit()
 
-    argon_700mbar = Measurement("alfa bron argon 700 mbar.csv", end_point=1000, pressure = 700)
+    argon_700mbar = Measurement("alfa bron argon 700 mbar.csv", end_point=1000, pressure_start = argon_start_list[7], pressure_end=argon_end_list[7])
     argon_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
     # argon_700mbar.plot_fit()
 
