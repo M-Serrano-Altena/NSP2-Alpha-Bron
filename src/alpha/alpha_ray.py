@@ -331,7 +331,7 @@ def measurement_argon():
     """
 
     argon_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
-    argon_end_list = [22, 117, 215, 317, 417, 526, 627, 727]
+    argon_end_list = [22, 117, 215, 317, 417, 526, 627, 756]
 
     argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
     argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
@@ -361,9 +361,9 @@ def measurement_argon():
     argon_600mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.07)
     # argon_600mbar.data_plot()
 
-    # argon_700mbar = Measurement("meting 4- alfa bron argon 700 mbar.csv", end_point=1000, pressure_start = argon_start_list[7], pressure_end=argon_end_list[7])
-    # argon_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # argon_700mbar.data_plot()
+    argon_700mbar = Measurement("meting 4- alfa bron argon 700 mbar.csv", end_point=1000, pressure_start = argon_start_list[7], pressure_end=argon_end_list[7])
+    argon_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
+    argon_700mbar.data_plot()
 
     Measurement.energy_fit()
     Measurement.energy_plot()
@@ -375,7 +375,7 @@ def measurement_helium():
     """
 
     helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349, 399, 449, 499, 549, 599, 649, 699]
-    helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470]
+    helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470, 521, 581, 627, 677, 737]
 
     argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
     argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
@@ -436,22 +436,6 @@ def measurement_helium():
     helium_700mbar = Measurement("meting 5- alfa bron helium 700 mbar.csv", end_point=1000, pressure_start = helium_start_list[14], pressure_end=helium_end_list[14])
     helium_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
     # helium_700mbar.data_plot()
-
-    helium_750mbar = Measurement("meting 5- alfa bron helium 750 mbar.csv", end_point=1000, pressure_start = helium_start_list[15], pressure_end=helium_end_list[15])
-    helium_750mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # helium_750mbar.data_plot()
-
-    helium_800mbar = Measurement("meting 5- alfa bron helium 800 mbar.csv", end_point=1000, pressure_start = helium_start_list[16], pressure_end=helium_end_list[16])
-    helium_800mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # helium_800mbar.data_plot()
-
-    helium_850mbar = Measurement("meting 5- alfa bron helium 850 mbar.csv", end_point=1000, pressure_start = helium_start_list[17], pressure_end=helium_end_list[17])
-    helium_850mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # helium_850mbar.data_plot()
-
-    helium_900mbar = Measurement("meting 5- alfa bron hrlium 900 mbar.csv", end_point=1000, pressure_start = helium_start_list[18], pressure_end=helium_end_list[18])
-    helium_900mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    # helium_900mbar.data_plot()
 
     Measurement.energy_fit()
     Measurement.energy_plot()
