@@ -1,4 +1,4 @@
-"""Fits the measured data with a exponential gauss with an added normal gauss and plots the fit. 
+"""Calculates the range of an alpha particle in different gasses and plots the respective (E,x) and (S,x) diagrams 
 """
 
 import pandas as pd
@@ -16,21 +16,24 @@ python_file_path = os.getcwd()
 
 
 class Measurement:
-    """Can calculate a fit of a measurement and plot it. Can also convert a voltage to an energy value
+    """Calculates the range of an alpha particle in different gasses and plots the respective (E,x) and (S,x) diagrams 
     """
 
     pressure_list = []
     path_length_list = []
+    path_length_error = []
 
     volt = []
     volt_error = []
 
     conversion_factor = 1 # placeholder value
     energy_alpha_init = 5.48 # Mev
+
+    standard_length = 3 # physical distance to the detector in cm 
+    standard_pressure = 1 # in bar
+
     energy_list = []
-
     energy_error_list = []
-
     stopping_power_list = []
 
     path_length_gas_continuous = []
@@ -41,6 +44,9 @@ class Measurement:
     energy_gas_data = []
     stopping_power_gas_data = []
 
+    path_length_gas_error = []
+    energy_gas_error = []
+
 
     def __init__(self, data_file: str, pressure_start: int, pressure_end: int, end_point: int = None):
         """read the data of given csv file and put it in a dataframe
@@ -48,18 +54,19 @@ class Measurement:
         Args:
             data_file: name of the csv file to be read
             end_point: end point of the data. Everything after this value in mV will be deleted from the dataframe
-            pressure: the pressure of the gas during the measurement in mbar
+            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: the pressure of the gas at the end of a measurement in mbar
         """
-        # pressure to bar
+        # 1/1000 --> pressure to bar
         self.pressure = self.pressure_mean(pressure_start, pressure_end)/1000 
-        self.pressure_error = self.pressure_err(pressure_start, pressure_end)
+        self.pressure_error = self.pressure_err(pressure_start, pressure_end)/1000
         Measurement.pressure_list.append(self.pressure)
-        Measurement.path_length_list.append(self.pressure_to_path_length(self.pressure))
+        Measurement.path_length_list.append(Measurement.pressure_to_path_length(self.pressure))
+        Measurement.path_length_error.append(Measurement.path_length_err(pressure=self.pressure, pressure_error=self.pressure_error))
 
-
-        self.data_file = data_file
         # go to CSV files directory
         os.chdir(os.path.join(python_file_path, "CSV data"))
+        self.data_file = data_file
         self.df_diagram = pd.read_csv(data_file)
         self.df_diagram = self.df_diagram.loc[(self.df_diagram['y0000'] > 0)]
 
@@ -72,25 +79,45 @@ class Measurement:
     
     @classmethod
     def clear(cls):
+        """clears lists for the next gas
+        """        
         cls.pressure_list = []
         cls.path_length_list = []
+        cls.path_length_error = []
 
         cls.volt = []
         cls.volt_error = []
+
         cls.energy_list = []
-
         cls.energy_error_list = []
-
         cls.stopping_power_list = []
 
     @staticmethod
-    def pressure_mean(pressure_start, pressure_end):
+    def pressure_mean(pressure_start: int, pressure_end: int) -> int:
+        """calculate the mean of the start and end pressure
+
+        Args:
+            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: the pressure of the gas at the end of a measurement in mbar
+
+        Returns:
+            the mean of the start and end pressure
+        """        
         pressure_mean = round(np.mean((pressure_start, pressure_end)))
         return int(pressure_mean)
 
     @staticmethod
-    def pressure_err(pressure_start, pressure_end):
-        pressure_error = round(pressure_end - np.mean((pressure_start, pressure_end)))
+    def pressure_err(pressure_start: int, pressure_end: int) -> int:
+        """calculates the error of the mean pressure
+
+        Args:
+            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: the pressure of the gas at the end of a measurement in mbar
+
+        Returns:
+            the error of the mean pressure
+        """        
+        pressure_error = abs(round(pressure_end - np.mean((pressure_start, pressure_end))))
         return int(pressure_error)
 
     def data_plot(self):
@@ -195,7 +222,7 @@ class Measurement:
         cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
 
         fig = plt.figure(f"(E,x)_diagram_{gas}.png")
-        plt.errorbar(cls.path_length_list, cls.energy_list, yerr=cls.energy_error_list, fmt='bo', ecolor='k', label='Measured data')
+        plt.errorbar(cls.path_length_list, cls.energy_list, xerr=cls.path_length_error, yerr=cls.energy_error_list, fmt='bo', ecolor='k', label='Measured data')
         plt.plot(cls.path_length_continuous, cls.energy_continuous, 'g', label=f'E(x) = c - a*b^x')
         plt.plot(cls.path_length_list, cls.result_energy.best_fit, 'r', label=f'Energy fit in measured range')
         plt.xlim(0,4)
@@ -220,7 +247,7 @@ class Measurement:
         """converts a voltage to an energy value
 
         Args:
-            voltage: voltage to be converted
+            voltage: voltage measured by the detector
 
         Returns:
             energy value corresponding to the input voltage
@@ -228,8 +255,8 @@ class Measurement:
         energy = Measurement.conversion_factor * voltage
         return energy
     
-    @staticmethod
-    def pressure_to_path_length(pressure: float) -> float:
+    @classmethod
+    def pressure_to_path_length(cls, pressure: float) -> float:
         """converts a given pressure to a path length
 
         Args:
@@ -238,14 +265,23 @@ class Measurement:
         Returns:
             path length in cm of the measurement relative to a standard pressure and the physical distance to the detector
         """ 
-        # physical distance to the detector in cm       
-        standard_length = 3
-        standard_pressure = 1 # in bar
-        path_length = standard_length * np.cbrt(pressure/standard_pressure)
-        
-        pressure_error = 1
-        path_length_error = pressure_error * standard_length / (3 * np.cbrt(standard_pressure * pressure ** 2))
+
+        path_length = cls.standard_length * np.cbrt(pressure/cls.standard_pressure)
         return path_length
+    
+    @classmethod
+    def path_length_err(cls, pressure: float, pressure_error: float) -> float:
+        """calculates the error on the path length based on the pressure error
+
+        Args:
+            pressure: mean pressure of the measurement in bar
+            pressure_error: error of the pressure in bar
+
+        Returns:
+            error on the path length
+        """        
+        path_length_error = pressure_error * cls.standard_length / (3 * np.cbrt(cls.standard_pressure * pressure**2))
+        return path_length_error
     
     @classmethod
     def stopping_power_function(cls, x: float) -> float:
@@ -264,12 +300,15 @@ class Measurement:
     @classmethod
     def stopping_power_plot(cls, gas: str):
         """Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram
+
+        Args:
+            gas: name of the gas that is being used
         """
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
         cls.path_length_continuous = np.arange(0, 4, 0.01)    
         cls.stopping_power_continuous = [cls.stopping_power_function(num) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
         fig = plt.figure(f"(S,x)_diagram_{gas}.png")
-        plt.scatter(cls.path_length_list, cls.stopping_power_list, c='blue', label='Calculated stopping power of measured data')  
+        plt.errorbar(cls.path_length_list, cls.stopping_power_list, xerr=cls.path_length_error, fmt='bo', ecolor='k', label='Calculated stopping power of measured data')  
         plt.plot(cls.path_length_continuous, cls.stopping_power_continuous, 'g-', label=f'S(x) = dE/dx = ln(b)*a*b^x')
         plt.plot(cls.path_length_list, cls.stopping_power_list, c='red', label='Stopping power function')
         plt.xlim(0,4)
@@ -296,6 +335,8 @@ class Measurement:
 
     @classmethod
     def energy_plot_all(cls):
+        """shows a plot of the energy diagram for all gasses
+        """        
         fig = plt.figure(f"(E,x)_diagram_all.png")
 
         # plot continous functions
@@ -304,9 +345,9 @@ class Measurement:
         plt.plot(cls.path_length_gas_continuous[2], cls.energy_gas_continuous[2], 'springgreen', label=f'Energy in helium')
 
         # plot data points
-        plt.errorbar(cls.path_length_gas_data[0], cls.energy_gas_data[0], fmt='bo', ecolor='k', label='Measured energy')
-        plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], fmt='bo', ecolor='k')
-        plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[0], cls.energy_gas_data[0], xerr=cls.path_length_gas_error[0], yerr=cls.energy_gas_error[0], fmt='bo', ecolor='k', label='Measured energy')
+        plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], xerr=cls.path_length_gas_error[1], yerr=cls.energy_gas_error[1], fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], xerr=cls.path_length_gas_error[2], yerr=cls.energy_gas_error[2], fmt='bo', ecolor='k')
 
         # plot functions in measured range
         plt.plot(cls.path_length_gas_data[0], cls.energy_gas_data[0], 'darkblue', label='Energy in measured range air')
@@ -327,6 +368,8 @@ class Measurement:
 
     @classmethod
     def stopping_power_plot_all(cls):
+        """shows the stopping power plot for all gasses
+        """        
         fig = plt.figure(f"(S,x)_diagram_all.png")
 
         # plot continuous functions
@@ -335,9 +378,9 @@ class Measurement:
         plt.plot(cls.path_length_gas_continuous[2], cls.stopping_power_gas_continuous[2], 'springgreen', label=f'Stopping power in helium')
 
         # plot data points
-        plt.errorbar(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], fmt='bo', ecolor='k', label='Calculated stopping power of measured data')
-        plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], fmt='bo', ecolor='k')
-        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], xerr=cls.path_length_gas_error[0] , fmt='bo', ecolor='k', label='Calculated stopping power of measured data')
+        plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], xerr=cls.path_length_gas_error[1] , fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='bo', ecolor='k')
 
         # plot functions in measured range
         plt.plot(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], 'darkblue', label='Stopping power in measured range air')
@@ -359,6 +402,8 @@ class Measurement:
     
     @classmethod
     def save_data(cls):
+        """saves the data of the different gasses
+        """        
         cls.path_length_gas_continuous.append(cls.path_length_continuous)
         cls.energy_gas_continuous.append(cls.energy_continuous)
         cls.stopping_power_gas_continuous.append(cls.stopping_power_continuous)
@@ -366,6 +411,9 @@ class Measurement:
         cls.path_length_gas_data.append(cls.path_length_list)
         cls.energy_gas_data.append(cls.energy_list)
         cls.stopping_power_gas_data.append(cls.stopping_power_list)
+
+        cls.path_length_gas_error.append(cls.path_length_error)
+        cls.energy_gas_error.append(cls.energy_error_list)
 
 
 def measurement_air():
