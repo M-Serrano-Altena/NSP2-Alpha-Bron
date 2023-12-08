@@ -266,7 +266,11 @@ class Measurement:
 
 def measurement_air():
     """runs the experiment with different pressures in air
-    """    
+    """
+
+    meas1_air_low_list = [20, 99, 199, 299, 399, 499, 599, 699, 799, 899]
+    meas1_air_high_list = [22, 114, 213, 314, 415, 515, 614, 714, 814, 971]
+
     meas1_vacuum = Measurement("alfa bron 21 mbar.csv", end_point=1000, pressure = 21)
     meas1_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
     # meas1_vacuum.plot_fit()
