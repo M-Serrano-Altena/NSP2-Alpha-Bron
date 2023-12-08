@@ -1,6 +1,5 @@
 """Fits the measured data with a exponential gauss with an added normal gauss and plots the fit. 
 """
-# test
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -30,9 +29,9 @@ class Measurement:
 
     conversion_factor = 1 # placeholder value
     energy_alpha_init = 5.48 # Mev
-    energy = []
+    energy_list = []
 
-    energy_error = []
+    energy_error_list = []
 
     stopping_power_list = []
 
@@ -124,8 +123,8 @@ class Measurement:
 
         Measurement.volt.append(self.fit_gauss1mu)
         Measurement.volt_error.append(self.fit_gauss1mu_err)
-        Measurement.energy.append(self.volt_to_energy(self.fit_gauss1mu))
-        Measurement.energy_error.append(self.volt_to_energy(self.fit_gauss1mu_err))
+        Measurement.energy_list.append(self.volt_to_energy(self.fit_gauss1mu))
+        Measurement.energy_error_list.append(self.volt_to_energy(self.fit_gauss1mu_err))
 
     def exp_decay(x: float, a: float, b:float, c: float) -> float:
             """Exponential decay function to fit for the (energy, path length) diagram
@@ -146,9 +145,9 @@ class Measurement:
     def energy_fit(cls):
         """fit of the energy diagram with the exponential decay function
         """        
-        energy_weight = [1/energy_err for energy_err in cls.energy_error]
+        energy_weight = [1/energy_err for energy_err in cls.energy_error_list]
         cls.model_energy = models.Model(cls.exp_decay, nan_policy='propagate')
-        cls.result_energy = cls.model_energy.fit(cls.energy, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
+        cls.result_energy = cls.model_energy.fit(cls.energy_list, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
         print(cls.result_energy.fit_report())
         cls.a = cls.result_energy.params['a'].value
         cls.b = cls.result_energy.params['b'].value
@@ -159,12 +158,14 @@ class Measurement:
     def energy_plot(cls):
         """Plot a diagram of the energy of the alpha particle against the path length 
         """
-        cls.path_length_continuous = np.arange(cls.path_length_list[0], cls.path_length_list[-1], 0.01)
-        cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_continuous]
+        cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
+        cls.path_length_continuous = np.arange(cls.path_length_list[0], 4, 0.01)
+        cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
 
         fig = plt.figure("(E,x)_diagram.png")
-        plt.errorbar(cls.path_length_list, cls.energy, yerr=cls.energy_error, fmt='bo', ecolor='k', label='data')
-        plt.plot(cls.path_length_continuous, cls.energy_continuous, 'r', label=f'E(x) = c - a*b^x')
+        plt.errorbar(cls.path_length_list, cls.energy_list, yerr=cls.energy_error_list, fmt='bo', ecolor='k', label='Measured data')
+        plt.plot(cls.path_length_continuous, cls.energy_continuous, 'g', label=f'E(x) = c - a*b^x')
+        plt.plot(cls.path_length_list, cls.result_energy.best_fit, 'r', label=f'Energy fit in measured range')
         plt.xlabel('path length (cm)')
         plt.ylabel('Energy (MeV)')
         plt.legend(loc='upper right')
@@ -236,8 +237,9 @@ class Measurement:
         cls.path_length_continuous = np.arange(cls.path_length_list[0], 4, 0.01)    
         cls.stopping_power_continuous = [cls.stopping_power_function(num) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
         fig = plt.figure("(S,x)_diagram.png")
-        plt.scatter(cls.path_length_list, cls.stopping_power_list, c='blue', label='Stopping power of measured data')
-        plt.plot(cls.path_length_continuous, cls.stopping_power_continuous, 'r', label=f'S(x) = dE/dx = ln(b)*a*b^x')
+        plt.scatter(cls.path_length_list, cls.stopping_power_list, c='blue', label='Calculated stopping power of measured data')  
+        plt.plot(cls.path_length_continuous, cls.stopping_power_continuous, 'g-', label=f'S(x) = dE/dx = ln(b)*a*b^x')
+        plt.plot(cls.path_length_list, cls.stopping_power_list, c='red', label='Stopping power function')
         plt.xlabel("path length (cm)")
         plt.ylabel("Stopping power (MeV/cm)")
         plt.legend(loc='upper left')
