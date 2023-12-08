@@ -1,4 +1,7 @@
-"""Calculates the range of an alpha particle in different gasses and plots the respective (E,x) and (S,x) diagrams 
+"""
+Calculates the range of an alpha particle in different gasses and plots the respective (E,x) and (S,x) diagrams.
+
+Documentation: <https://m-serrano-altena.github.io/NSP2-Alpha-Ray/>
 """
 
 import pandas as pd
@@ -16,8 +19,6 @@ python_file_path = os.getcwd()
 
 
 class Measurement:
-    """Calculates the range of an alpha particle in different gasses and plots the respective (E,x) and (S,x) diagrams 
-    """
 
     pressure_list = []
     path_length_list = []
@@ -49,13 +50,13 @@ class Measurement:
 
 
     def __init__(self, data_file: str, pressure_start: int, pressure_end: int, end_point: int = None):
-        """read the data of given csv file and put it in a dataframe
+        """Read the data of given csv file and put it in a dataframe and calculate the path length
 
         Args:
-            data_file: name of the csv file to be read
-            end_point: end point of the data. Everything after this value in mV will be deleted from the dataframe
-            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
-            pressure_end: the pressure of the gas at the end of a measurement in mbar
+            data_file: Name of the csv file to be read
+            end_point: End point of the data. Everything after this value in mV will be deleted from the dataframe
+            pressure_start: The pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: The pressure of the gas at the end of a measurement in mbar
         """
         # 1/1000 --> pressure to bar
         self.pressure = self.pressure_mean(pressure_start, pressure_end)/1000 
@@ -79,7 +80,7 @@ class Measurement:
     
     @classmethod
     def clear(cls):
-        """clears lists for the next gas
+        """Clears lists to get empty lists for the next gas
         """        
         cls.pressure_list = []
         cls.path_length_list = []
@@ -94,28 +95,28 @@ class Measurement:
 
     @staticmethod
     def pressure_mean(pressure_start: int, pressure_end: int) -> int:
-        """calculate the mean of the start and end pressure
+        """Calculate the mean of the start and end pressure
 
         Args:
-            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
-            pressure_end: the pressure of the gas at the end of a measurement in mbar
+            pressure_start: The pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: The pressure of the gas at the end of a measurement in mbar
 
         Returns:
-            the mean of the start and end pressure
+            The mean of the start and end pressure in mbar
         """        
         pressure_mean = round(np.mean((pressure_start, pressure_end)))
         return int(pressure_mean)
 
     @staticmethod
     def pressure_err(pressure_start: int, pressure_end: int) -> int:
-        """calculates the error of the mean pressure
+        """Calculates the error of the mean pressure
 
         Args:
-            pressure_start: the pressure of the gas at the beginning of a measurement in mbar
-            pressure_end: the pressure of the gas at the end of a measurement in mbar
+            pressure_start: The pressure of the gas at the beginning of a measurement in mbar
+            pressure_end: The pressure of the gas at the end of a measurement in mbar
 
         Returns:
-            the error of the mean pressure
+            The error of the mean pressure in mbar
         """        
         pressure_error = abs(round(pressure_end - np.mean((pressure_start, pressure_end))))
         return int(pressure_error)
@@ -140,27 +141,27 @@ class Measurement:
         plt.show()
     
     def data_fit(self, start_expmu: float, start_gauss1_mu: float):
-        """fits the measured data with an exponential gauss with an added normal gauss
+        """Fits the measured data with an exponential gauss with an added normal gauss
 
         Args:
-            start_expmu: start mean value of the exponential gauss for the fit
-            start_gauss1_mu: start mean value of the normal gauss for the fit
+            start_expmu: Start mean value of the exponential gauss for the fit
+            start_gauss1_mu: Start mean value of the normal gauss for the fit
         """        
         def exp_gauss(x: list, amplitude: float, mu: float, sigma: float, labda: float, gauss1_amplitude: float, gauss1_mu: float, gauss1_sigma: float) -> np.ndarray:
-            """exponential gauss with an added normal gauss
+            """Exponential gauss with an added normal gauss
 
             Args:
-                x: list of x coordinates
-                amplitude: the amplitude of the exponential gauss
-                mu: the mean value of the exponential gauss
-                sigma: the standard devitaion of the exponential gauss. Always greater than zero
-                labda: the rate of the exponential component. Always greater than zero
-                gauss1_amplitude: the amplitude of the normal gauss
-                gauss1_mu: the mean value of the normal gauss
-                gauss1_sigma: the standard deviation of the normal gauss
+                x: List of x coordinates
+                amplitude: The amplitude of the exponential gauss
+                mu: The mean value of the exponential gauss
+                sigma: The standard devitaion of the exponential gauss. Always greater than zero
+                labda: The rate of the exponential component. Always greater than zero
+                gauss1_amplitude: The amplitude of the normal gauss
+                gauss1_mu: The mean value of the normal gauss
+                gauss1_sigma: The standard deviation of the normal gauss
 
             Returns:
-                exponential gauss with an added normal gauss
+                Exponential gauss with an added normal gauss
             """            
             gauss1 = gauss1_amplitude* sp.stats.norm(loc=gauss1_mu, scale=gauss1_sigma).pdf(x)
             exp_gauss = amplitude * sp.stats.exponnorm.pdf(x, K=1/(sigma*labda), loc=mu, scale=sigma)
@@ -190,19 +191,19 @@ class Measurement:
 
             Args:
                 x: The path length
-                a: a constant times the exponential
-                b: decay factor
-                c: extra translation of the function
+                a: A constant times the exponential
+                b: Decay factor
+                c: Extra translation of the function
 
             Returns:
-                Energy of the alpha particle with a given path length
+                Energy of the alpha particle for a given path length
             """            
             energy = c - a * b**x
             return energy
 
     @classmethod
     def energy_fit(cls):
-        """fit of the energy diagram with the exponential decay function
+        """Fit of the energy diagram with the exponential decay function
         """        
         energy_weight = [1/energy_err for energy_err in cls.energy_error_list]
         cls.model_energy = models.Model(cls.exp_decay, nan_policy='propagate')
@@ -215,7 +216,9 @@ class Measurement:
 
     @classmethod
     def energy_plot(cls, gas: str):
-        """Plot a diagram of the energy of the alpha particle against the path length 
+        """Plot a diagram of the energy of the alpha particle against the path length for a certain gas
+        Args:
+            gas: Name of the gas that is being used 
         """
         cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
         cls.path_length_continuous = np.arange(0, 4, 0.01)
@@ -238,32 +241,32 @@ class Measurement:
         plt.show()
     
     def calc_conversion_factor(self):
-        """calculate the conversion factor to go from a voltage to an energy
+        """Calculate the conversion factor to go from a voltage to an energy. Is only run with a vacuum measurement
         """        
         Measurement.conversion_factor = Measurement.energy_alpha_init/self.fit_gauss1mu
 
     @staticmethod
     def volt_to_energy(voltage: float) -> float:
-        """converts a voltage to an energy value
+        """Converts a voltage to an energy value
 
         Args:
-            voltage: voltage measured by the detector
+            voltage: Voltage measured by the detector
 
         Returns:
-            energy value corresponding to the input voltage
+            Energy value corresponding to the input voltage
         """        
         energy = Measurement.conversion_factor * voltage
         return energy
     
     @classmethod
     def pressure_to_path_length(cls, pressure: float) -> float:
-        """converts a given pressure to a path length
+        """Converts a given pressure to a path length
 
         Args:
-            pressure: pressure of the measurement in bar
+            pressure: Pressure of the measurement in bar
 
         Returns:
-            path length in cm of the measurement relative to a standard pressure and the physical distance to the detector
+            Path length in cm of the measurement relative to a standard pressure and the physical distance to the detector
         """ 
 
         path_length = cls.standard_length * np.cbrt(pressure/cls.standard_pressure)
@@ -271,27 +274,27 @@ class Measurement:
     
     @classmethod
     def path_length_err(cls, pressure: float, pressure_error: float) -> float:
-        """calculates the error on the path length based on the pressure error
+        """Calculates the error of the path length based on the pressure error
 
         Args:
-            pressure: mean pressure of the measurement in bar
-            pressure_error: error of the pressure in bar
+            pressure: Mean pressure of the measurement in bar
+            pressure_error: Error of the pressure in bar
 
         Returns:
-            error on the path length
+            Error of the path length in bar
         """        
         path_length_error = pressure_error * cls.standard_length / (3 * np.cbrt(cls.standard_pressure * pressure**2))
         return path_length_error
     
     @classmethod
     def stopping_power_function(cls, x: float) -> float:
-        """stopping power function, which is minus the derivative of the energy function with respect to the path length
+        """Stopping power function, which is the negative derivative of the energy function with respect to the path length. That is: S(x) = - dE/dx
 
         Args:
             x: The path length
 
         Returns:
-            stopping power with a given path length
+            Stopping power with a given path length
         """        
         # stopping power = - dE/dx
         stopping_power = cls.a* np.log(cls.b) * cls.b**x
@@ -299,10 +302,10 @@ class Measurement:
     
     @classmethod
     def stopping_power_plot(cls, gas: str):
-        """Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram
+        """Plots the stopping power against the path length for a certain gas
 
         Args:
-            gas: name of the gas that is being used
+            gas: Name of the gas that is being used
         """
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
         cls.path_length_continuous = np.arange(0, 4, 0.01)    
@@ -324,10 +327,10 @@ class Measurement:
     
     @classmethod
     def alpha_range(cls) -> float:
-        """calculate the range of an alpha particle at atmospheric pressure
+        """Calculate the range of an alpha particle at atmospheric pressure
 
         Returns:
-            the range of the alpha particle
+            The range of the alpha particle
         """        
         # we could also use c - E0 instead of a
         range_alpha_ray = np.log(cls.c/(cls.a))/np.log(cls.b)
@@ -335,7 +338,7 @@ class Measurement:
 
     @classmethod
     def energy_plot_all(cls):
-        """shows a plot of the energy diagram for all gasses
+        """Plots the (energy, path length) diagram for all gasses
         """        
         fig = plt.figure(f"(E,x)_diagram_all.png")
 
@@ -368,7 +371,7 @@ class Measurement:
 
     @classmethod
     def stopping_power_plot_all(cls):
-        """shows the stopping power plot for all gasses
+        """Plots the (stopping power, path length) diagram for all gasses
         """        
         fig = plt.figure(f"(S,x)_diagram_all.png")
 
@@ -402,7 +405,7 @@ class Measurement:
     
     @classmethod
     def save_data(cls):
-        """saves the data of the different gasses
+        """Saves the data of the different gasses
         """        
         cls.path_length_gas_continuous.append(cls.path_length_continuous)
         cls.energy_gas_continuous.append(cls.energy_continuous)
@@ -417,7 +420,7 @@ class Measurement:
 
 
 def measurement_air():
-    """runs the experiment with different pressures in air
+    """Runs the experiment with different pressures in air
     """
 
     air_start_list = [20, 99, 199, 299, 399, 499, 599, 699, 799, 899]
@@ -472,7 +475,7 @@ def measurement_air():
     Measurement.clear()
 
 def measurement_argon():
-    """runs the experiment with different pressures in argon
+    """Runs the experiment with different pressures in argon
     """
 
     argon_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
@@ -519,7 +522,7 @@ def measurement_argon():
     Measurement.clear()
 
 def measurement_helium():
-    """runs the experiment with different pressures in helium
+    """Runs the experiment with different pressures in helium
     """
 
     helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349, 399, 449, 499, 549, 599, 649, 699]
