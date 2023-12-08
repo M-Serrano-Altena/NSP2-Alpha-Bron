@@ -14,8 +14,6 @@ os.chdir(os.path.dirname(path))
 
 python_file_path = os.getcwd()
 
-os.chdir(os.path.join(python_file_path, "CSV data"))
-
 
 class Measurement:
     """Can calculate a fit of a measurement and plot it. Can also convert a voltage to an energy value
@@ -35,6 +33,15 @@ class Measurement:
 
     stopping_power_list = []
 
+    path_length_gas_continuous = []
+    energy_gas_continuous = []
+    stopping_power_gas_continuous = []
+
+    path_length_gas_data = []
+    energy_gas_data = []
+    stopping_power_gas_data = []
+
+
     def __init__(self, data_file: str, pressure_start: int, pressure_end: int, end_point: int = None):
         """read the data of given csv file and put it in a dataframe
 
@@ -51,6 +58,8 @@ class Measurement:
 
 
         self.data_file = data_file
+        # go to CSV files directory
+        os.chdir(os.path.join(python_file_path, "CSV data"))
         self.df_diagram = pd.read_csv(data_file)
         self.df_diagram = self.df_diagram.loc[(self.df_diagram['y0000'] > 0)]
 
@@ -61,6 +70,19 @@ class Measurement:
         self.df_diagram["error_counts"] = np.sqrt(self.df_diagram['y0000'])
         self.title, _ = self.data_file.split('.')
     
+    @classmethod
+    def clear(cls):
+        cls.pressure_list = []
+        cls.path_length_list = []
+
+        cls.volt = []
+        cls.volt_error = []
+        cls.energy_list = []
+
+        cls.energy_error_list = []
+
+        cls.stopping_power_list = []
+
     @staticmethod
     def pressure_mean(pressure_start, pressure_end):
         pressure_mean = round(np.mean((pressure_start, pressure_end)))
@@ -128,7 +150,7 @@ class Measurement:
         self.fit_gauss1mu_err = self.result_signal.params['gauss1_mu'].stderr
 
         # only calculate the conversion factor in vacuum
-        if self.pressure < 0.1:
+        if self.pressure < 0.05:
             self.calc_conversion_factor()
 
         Measurement.volt.append(self.fit_gauss1mu)
@@ -158,34 +180,34 @@ class Measurement:
         energy_weight = [1/energy_err for energy_err in cls.energy_error_list]
         cls.model_energy = models.Model(cls.exp_decay, nan_policy='propagate')
         cls.result_energy = cls.model_energy.fit(cls.energy_list, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
-        print(cls.result_energy.fit_report())
+        # print(cls.result_energy.fit_report())
         cls.a = cls.result_energy.params['a'].value
         cls.b = cls.result_energy.params['b'].value
         cls.c = cls.result_energy.params['c'].value
 
 
     @classmethod
-    def energy_plot(cls):
+    def energy_plot(cls, gas: str):
         """Plot a diagram of the energy of the alpha particle against the path length 
         """
         cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
-        cls.path_length_continuous = np.arange(cls.path_length_list[0], 4, 0.01)
+        cls.path_length_continuous = np.arange(0, 4, 0.01)
         cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
 
-        fig = plt.figure("(E,x)_diagram.png")
+        fig = plt.figure(f"(E,x)_diagram_{gas}.png")
         plt.errorbar(cls.path_length_list, cls.energy_list, yerr=cls.energy_error_list, fmt='bo', ecolor='k', label='Measured data')
         plt.plot(cls.path_length_continuous, cls.energy_continuous, 'g', label=f'E(x) = c - a*b^x')
         plt.plot(cls.path_length_list, cls.result_energy.best_fit, 'r', label=f'Energy fit in measured range')
-        plt.xlabel('path length (cm)')
+        plt.xlim(0,4)
+        plt.ylim(0,6)
+        plt.xlabel('Path length (cm)')
         plt.ylabel('Energy (MeV)')
-        plt.legend(loc='upper right')
+        plt.legend(loc='lower left')
 
         # go to fits folder to save fit
         os.chdir(os.path.join(python_file_path, "Fits"))
-        plt.savefig("(E,x)_diagram.png")
+        plt.savefig(f"(E,x)_diagram_{gas}.png")
 
-        # go to csv folder to read csv
-        os.chdir(os.path.join(python_file_path, "CSV data"))
         plt.show()
     
     def calc_conversion_factor(self):
@@ -240,26 +262,25 @@ class Measurement:
         return stopping_power
     
     @classmethod
-    def stopping_power_plot(cls):
+    def stopping_power_plot(cls, gas: str):
         """Plots the stopping power against the path length and plots an (E,x) and a (S,x) diagram
         """
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
-        cls.path_length_continuous = np.arange(cls.path_length_list[0], 4, 0.01)    
+        cls.path_length_continuous = np.arange(0, 4, 0.01)    
         cls.stopping_power_continuous = [cls.stopping_power_function(num) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
-        fig = plt.figure("(S,x)_diagram.png")
+        fig = plt.figure(f"(S,x)_diagram_{gas}.png")
         plt.scatter(cls.path_length_list, cls.stopping_power_list, c='blue', label='Calculated stopping power of measured data')  
         plt.plot(cls.path_length_continuous, cls.stopping_power_continuous, 'g-', label=f'S(x) = dE/dx = ln(b)*a*b^x')
         plt.plot(cls.path_length_list, cls.stopping_power_list, c='red', label='Stopping power function')
-        plt.xlabel("path length (cm)")
+        plt.xlim(0,4)
+        plt.xlabel("Path length (cm)")
         plt.ylabel("Stopping power (MeV/cm)")
         plt.legend(loc='upper left')
 
         # go to fits folder to save fit
         os.chdir(os.path.join(python_file_path, "Fits"))
-        plt.savefig("(S,x)_diagram.png")
+        plt.savefig(f"(S,x)_diagram_{gas}.png")
 
-        # go to csv folder to read csv
-        os.chdir(os.path.join(python_file_path, "CSV data"))
         plt.show()
     
     @classmethod
@@ -272,6 +293,79 @@ class Measurement:
         # we could also use c - E0 instead of a
         range_alpha_ray = np.log(cls.c/(cls.a))/np.log(cls.b)
         return range_alpha_ray
+
+    @classmethod
+    def energy_plot_all(cls):
+        fig = plt.figure(f"(E,x)_diagram_all.png")
+
+        # plot continous functions
+        plt.plot(cls.path_length_gas_continuous[0], cls.energy_gas_continuous[0], 'cyan', label=f'Energy in air')
+        plt.plot(cls.path_length_gas_continuous[1], cls.energy_gas_continuous[1], 'salmon', label=f'Energy in argon')
+        plt.plot(cls.path_length_gas_continuous[2], cls.energy_gas_continuous[2], 'springgreen', label=f'Energy in helium')
+
+        # plot data points
+        plt.errorbar(cls.path_length_gas_data[0], cls.energy_gas_data[0], fmt='bo', ecolor='k', label='Measured energy')
+        plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], fmt='bo', ecolor='k')
+
+        # plot functions in measured range
+        plt.plot(cls.path_length_gas_data[0], cls.energy_gas_data[0], 'darkblue', label='Energy in measured range air')
+        plt.plot(cls.path_length_gas_data[1], cls.energy_gas_data[1], 'darkred', label='Energy in measured range argon')
+        plt.plot(cls.path_length_gas_data[2], cls.energy_gas_data[2], 'darkgreen', label='Energy in measured range helium')
+
+        plt.xlim(0, 4)
+        plt.ylim(0, 6)
+        plt.xlabel("Path length (cm)")
+        plt.ylabel("Energy (MeV)")
+        plt.legend(loc='lower left')
+
+        # go to fits folder to save fit
+        os.chdir(os.path.join(python_file_path, "Fits"))
+        plt.savefig("(E,x)_diagram_all.png")
+
+        plt.show()
+
+    @classmethod
+    def stopping_power_plot_all(cls):
+        fig = plt.figure(f"(S,x)_diagram_all.png")
+
+        # plot continuous functions
+        plt.plot(cls.path_length_gas_continuous[0], cls.stopping_power_gas_continuous[0], 'cyan', label=f'Stopping power in air')
+        plt.plot(cls.path_length_gas_continuous[1], cls.stopping_power_gas_continuous[1], 'salmon', label=f'Stopping power in argon')
+        plt.plot(cls.path_length_gas_continuous[2], cls.stopping_power_gas_continuous[2], 'springgreen', label=f'Stopping power in helium')
+
+        # plot data points
+        plt.errorbar(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], fmt='bo', ecolor='k', label='Calculated stopping power of measured data')
+        plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], fmt='bo', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], fmt='bo', ecolor='k')
+
+        # plot functions in measured range
+        plt.plot(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], 'darkblue', label='Stopping power in measured range air')
+        plt.plot(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], 'darkred', label='Stopping power in measured range argon')
+        plt.plot(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], 'darkgreen', label='Stopping power in measured range helium')        
+
+
+        plt.xlim(0, 4)
+        plt.ylim(0, 12.5)
+        plt.xlabel("Path length (cm)")
+        plt.ylabel("Stopping power (MeV/cm)")
+        plt.legend(loc='upper left')
+
+        # go to fits folder to save fit
+        os.chdir(os.path.join(python_file_path, "Fits"))
+        plt.savefig("(S,x)_diagram_all.png")
+
+        plt.show()
+    
+    @classmethod
+    def save_data(cls):
+        cls.path_length_gas_continuous.append(cls.path_length_continuous)
+        cls.energy_gas_continuous.append(cls.energy_continuous)
+        cls.stopping_power_gas_continuous.append(cls.stopping_power_continuous)
+
+        cls.path_length_gas_data.append(cls.path_length_list)
+        cls.energy_gas_data.append(cls.energy_list)
+        cls.stopping_power_gas_data.append(cls.stopping_power_list)
 
 
 def measurement_air():
@@ -322,9 +416,12 @@ def measurement_air():
     # air_900mbar.data_plot()
 
     Measurement.energy_fit()
-    Measurement.energy_plot()
-    Measurement.stopping_power_plot()
+    Measurement.energy_plot(gas='air')
+    Measurement.stopping_power_plot(gas='air')
     print(f"The range of an alpha particle in air with atmosiferic pressure is {round(Measurement.alpha_range(), 2)} cm")
+
+    Measurement.save_data()
+    Measurement.clear()
 
 def measurement_argon():
     """runs the experiment with different pressures in argon
@@ -363,12 +460,15 @@ def measurement_argon():
 
     argon_700mbar = Measurement("meting 4- alfa bron argon 700 mbar.csv", end_point=1000, pressure_start = argon_start_list[7], pressure_end=argon_end_list[7])
     argon_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
-    argon_700mbar.data_plot()
+    # argon_700mbar.data_plot()
 
     Measurement.energy_fit()
-    Measurement.energy_plot()
-    Measurement.stopping_power_plot()
+    Measurement.energy_plot(gas='argon')
+    Measurement.stopping_power_plot(gas='argon')
     print(f"The range of an alpha particle in argon with atmospheric pressure is {round(Measurement.alpha_range(), 2)} cm")
+
+    Measurement.save_data()
+    Measurement.clear()
 
 def measurement_helium():
     """runs the experiment with different pressures in helium
@@ -378,32 +478,32 @@ def measurement_helium():
     helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470, 521, 581, 627, 677, 737]
 
     argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
-    argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-    argon_vacuum.data_plot()
+    argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # argon_vacuum.data_plot()
 
     helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
-    helium_50mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    helium_50mbar.data_plot()
+    helium_50mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # helium_50mbar.data_plot()
 
     helium_100mbar = Measurement("meting 5- alfa bron helium 100 mbar.csv", end_point=1000, pressure_start = helium_start_list[2], pressure_end=helium_end_list[2])
-    helium_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-    helium_100mbar.data_plot()
+    helium_100mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # helium_100mbar.data_plot()
 
     helium_150mbar = Measurement("meting 5- alfa bron helium 150 mbar.csv", end_point=1000, pressure_start = helium_start_list[3], pressure_end=helium_end_list[3])
-    helium_150mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    helium_150mbar.data_plot()
+    helium_150mbar.data_fit(start_expmu=0.005, start_gauss1_mu=0.15)
+    # helium_150mbar.data_plot()
 
     helium_200mbar = Measurement("meting 5- alfa bron helium 200 mbar.csv", end_point=1000, pressure_start = helium_start_list[4], pressure_end=helium_end_list[4])
-    helium_200mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
-    helium_200mbar.data_plot()
+    helium_200mbar.data_fit(start_expmu=0.005, start_gauss1_mu=0.15)
+    # helium_200mbar.data_plot()
 
     helium_250mbar = Measurement("meting 5- alfa bron helium 250 mbar.csv", end_point=1000, pressure_start = helium_start_list[5], pressure_end=helium_end_list[5])
-    helium_250mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
-    helium_250mbar.data_plot()
+    helium_250mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # helium_250mbar.data_plot()
 
     helium_300mbar = Measurement("meting 5- alfa bron helium 300 mbar.csv", end_point=1000, pressure_start = helium_start_list[6], pressure_end=helium_end_list[6])
-    helium_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
-    helium_300mbar.data_plot()
+    helium_300mbar.data_fit(start_expmu=0.005, start_gauss1_mu=0.15)
+    # helium_300mbar.data_plot()
 
     helium_350mbar = Measurement("meting 5- alfa bron helium 350 mbar.csv", end_point=1000, pressure_start = helium_start_list[7], pressure_end=helium_end_list[7])
     helium_350mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
@@ -438,16 +538,22 @@ def measurement_helium():
     # helium_700mbar.data_plot()
 
     Measurement.energy_fit()
-    Measurement.energy_plot()
-    Measurement.stopping_power_plot()
+    Measurement.energy_plot(gas='helium')
+    Measurement.stopping_power_plot(gas='helium')
     print(f"The range of an alpha particle in helium with atmospheric pressure is {round(Measurement.alpha_range(), 2)} cm")
+
+    Measurement.save_data()
+    Measurement.clear()
 
 def run():
     """Runs measurements with different gasses
     """    
-    # measurement_air()
-    # measurement_argon()
+    measurement_air()
+    measurement_argon()
     measurement_helium()
+
+    Measurement.energy_plot_all()
+    Measurement.stopping_power_plot_all()
 
 
 if __name__ == "__main__":
