@@ -379,31 +379,31 @@ def measurement_helium():
 
     argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
     argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-    # argon_vacuum.data_plot()
+    argon_vacuum.data_plot()
 
     helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
     helium_50mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    # helium_50mbar.data_plot()
+    helium_50mbar.data_plot()
 
     helium_100mbar = Measurement("meting 5- alfa bron helium 100 mbar.csv", end_point=1000, pressure_start = helium_start_list[2], pressure_end=helium_end_list[2])
     helium_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
-    # helium_100mbar.data_plot()
+    helium_100mbar.data_plot()
 
     helium_150mbar = Measurement("meting 5- alfa bron helium 150 mbar.csv", end_point=1000, pressure_start = helium_start_list[3], pressure_end=helium_end_list[3])
     helium_150mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
-    # helium_150mbar.data_plot()
+    helium_150mbar.data_plot()
 
     helium_200mbar = Measurement("meting 5- alfa bron helium 200 mbar.csv", end_point=1000, pressure_start = helium_start_list[4], pressure_end=helium_end_list[4])
     helium_200mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
-    # helium_200mbar.data_plot()
+    helium_200mbar.data_plot()
 
     helium_250mbar = Measurement("meting 5- alfa bron helium 250 mbar.csv", end_point=1000, pressure_start = helium_start_list[5], pressure_end=helium_end_list[5])
     helium_250mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
-    # helium_250mbar.data_plot()
+    helium_250mbar.data_plot()
 
     helium_300mbar = Measurement("meting 5- alfa bron helium 300 mbar.csv", end_point=1000, pressure_start = helium_start_list[6], pressure_end=helium_end_list[6])
     helium_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
-    # helium_300mbar.data_plot()
+    helium_300mbar.data_plot()
 
     helium_350mbar = Measurement("meting 5- alfa bron helium 350 mbar.csv", end_point=1000, pressure_start = helium_start_list[7], pressure_end=helium_end_list[7])
     helium_350mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
@@ -445,8 +445,9 @@ def measurement_helium():
 def run():
     """Runs measurements with different gasses
     """    
-    measurement_air()
-    measurement_argon()
+    # measurement_air()
+    # measurement_argon()
+    measurement_helium()
 
 
 if __name__ == "__main__":
