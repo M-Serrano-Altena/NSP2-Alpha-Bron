@@ -374,8 +374,8 @@ def measurement_helium():
     """runs the experiment with different pressures in helium
     """
 
-    helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349]
-    helium_end_list = [22, 64, 115, 166, 215, 261, 315, ]
+    helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349, 399, 449, 499, 549, 599, 649, 699]
+    helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470]
 
     argon_vacuum = Measurement("alfa bron argon 21 mbar.csv", end_point=1000, pressure = 21)
     argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
@@ -462,6 +462,8 @@ def run():
     """Runs measurements with different gasses
     """    
     measurement_air()
+    measurement_argon()
+    measurement_helium()
 
 
 if __name__ == "__main__":
