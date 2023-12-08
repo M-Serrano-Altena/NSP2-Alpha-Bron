@@ -316,6 +316,50 @@ def measurement_air():
     Measurement.stopping_power_plot()
     print(f"The range of an alpha particle in air with atmosiferic pressure is {round(Measurement.alpha_range(), 2)} cm")
 
+def measurement_argon():
+    """runs the experiment with different pressures in argon
+    """
+
+    argon_low_list = [20, 98, 199, 299, 399, 499, 599, 699]
+    argon_high_list = [22, 117, 215, 317, 417, 526, 627, 727]
+
+    argon_vacuum = Measurement("alfa bron argon 21 mbar.csv", end_point=1000, pressure = 21)
+    argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+    # argon_vacuum.plot_fit()
+
+    argon_100mbar = Measurement("alfa bron argon 100 mbar.csv", end_point=1000, pressure = 100)
+    argon_100mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
+    # argon_100mbar.plot_fit()
+
+    argon_200mbar = Measurement("alfa bron argon 200 mbar.csv", end_point=1000, pressure = 200)
+    argon_200mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
+    # argon_200mbar.plot_fit()
+
+    argon_300mbar = Measurement("alfa bron argon 300 mbar.csv", end_point=1000, pressure = 300)
+    argon_300mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.18)
+    # argon_300mbar.plot_fit()
+
+    argon_400mbar = Measurement("alfa bron argon 400 mbar.csv", end_point=1000, pressure = 400)
+    argon_400mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.17)
+    # argon_400mbar.plot_fit()
+
+    argon_500mbar = Measurement("alfa bron argon 500 mbar.csv", end_point=1000, pressure = 500)
+    argon_500mbar.data_fit(start_expmu=0.025, start_gauss1_mu=0.16)
+    # argon_500mbar.plot_fit()
+
+    argon_600mbar = Measurement("alfa bron argon 600 mbar.csv", end_point=1000, pressure = 600)
+    argon_600mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.14)
+    # argon_600mbar.plot_fit()
+
+    argon_700mbar = Measurement("alfa bron argon 700 mbar.csv", end_point=1000, pressure = 700)
+    argon_700mbar.data_fit(start_expmu=0.05, start_gauss1_mu=0.13)
+    # argon_700mbar.plot_fit()
+
+    Measurement.energy_fit()
+    Measurement.energy_plot()
+    Measurement.stopping_power_plot()
+    print(f"The range of an alpha particle in argon with atmospheric pressure is {round(Measurement.alpha_range(), 2)} cm")
+
 
 def run():
     """Runs measurements with different gasses
