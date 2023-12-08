@@ -374,8 +374,8 @@ def measurement_helium():
     """runs the experiment with different pressures in helium
     """
 
-    helium_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
-    helium_end_list = [22, 117, 215, 317, 417, 526, 627, 727]
+    helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349]
+    helium_end_list = [22, 64, 115, 166, 215, 261, 315, ]
 
     argon_vacuum = Measurement("alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
     argon_vacuum.data_fit(start_expmu=0.05, start_gauss1_mu=0.2)
