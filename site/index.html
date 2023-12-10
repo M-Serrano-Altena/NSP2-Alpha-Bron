@@ -12,7 +12,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -150,7 +150,6 @@
   
   
     
-  
   
   
     <li class="md-nav__item md-nav__item--active">
@@ -343,9 +342,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.range_err" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_err()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.save_data" class="md-nav__link">
     <span class="md-ellipsis">
       save_data()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.stopping_power_err" class="md-nav__link">
+    <span class="md-ellipsis">
+      stopping_power_err()
     </span>
   </a>
   
@@ -608,9 +625,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.range_err" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_err()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#src.alpha.alpha_ray.Measurement.save_data" class="md-nav__link">
     <span class="md-ellipsis">
       save_data()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.alpha.alpha_ray.Measurement.stopping_power_err" class="md-nav__link">
+    <span class="md-ellipsis">
+      stopping_power_err()
     </span>
   </a>
   
@@ -1147,7 +1182,26 @@
 <span class="normal">416</span>
 <span class="normal">417</span>
 <span class="normal">418</span>
-<span class="normal">419</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Measurement</span><span class="p">:</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Measurement</span><span class="p">:</span>
 
     <span class="n">pressure_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">path_length_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1337,10 +1391,13 @@
         <span class="n">energy_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">energy_err</span> <span class="k">for</span> <span class="n">energy_err</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_error_list</span><span class="p">]</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_list</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">energy_weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="c1"># print(cls.result_energy.fit_report())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">fit_report</span><span class="p">())</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">c_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
 
 
     <span class="nd">@classmethod</span>
@@ -1349,7 +1406,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            gas: Name of the gas that is being used </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">energy_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+        <span class="c1"># cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
 
@@ -1430,6 +1487,30 @@
         <span class="k">return</span> <span class="n">stopping_power</span>
 
     <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">stopping_power_err</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;gives the error on the stopping power by using the error propagation formula</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: the path length</span>
+<span class="sd">            x_err: the error on the path length</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the error on the stopping power at a certain path length</span>
+<span class="sd">        &quot;&quot;&quot;</span>       
+        <span class="n">stopping_power_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="n">x</span> <span class="o">*</span> <span class="n">x_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stopping_power_error</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">range_err</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;gives the error on the range of an alpha particle in the certain</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the error on the range in a certain gas</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">range_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">))</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">c_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">))</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="o">/</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">range_error</span>
+
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">stopping_power_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">gas</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the stopping power against the path length for a certain gas</span>
 
@@ -1437,10 +1518,12 @@
 <span class="sd">            gas: Name of the gas that is being used</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_error</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_err</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_err</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_err</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">)]</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>    
         <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
+
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(S,x)_diagram_</span><span class="si">{</span><span class="n">gas</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>  
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>  
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span><span class="p">,</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;S(x) = dE/dx = ln(b)*a*b^x&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power function&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
@@ -1472,19 +1555,14 @@
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(E,x)_diagram_all.png&quot;</span><span class="p">)</span>
 
         <span class="c1"># plot continous functions</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in air&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in argon&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in helium&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in air&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in argon&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in helium&#39;</span><span class="p">)</span>
 
         <span class="c1"># plot data points</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured energy&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-
-        <span class="c1"># plot functions in measured range</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range air&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range argon&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range helium&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
@@ -1505,19 +1583,14 @@
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(S,x)_diagram_all.png&quot;</span><span class="p">)</span>
 
         <span class="c1"># plot continuous functions</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in air&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in argon&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in helium&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in air&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in argon&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in helium&#39;</span><span class="p">)</span>
 
         <span class="c1"># plot data points</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-
-        <span class="c1"># plot functions in measured range</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range air&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range argon&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range helium&#39;</span><span class="p">)</span>        
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>        
 
 
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1758,16 +1831,16 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">alpha_range</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the range of an alpha particle at atmospheric pressure</span>
 
@@ -1801,10 +1874,10 @@
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_conversion_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_conversion_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the conversion factor to go from a voltage to an energy. Is only run with a vacuum measurement</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="n">Measurement</span><span class="o">.</span><span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_alpha_init</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_gauss1mu</span>
@@ -2117,17 +2190,23 @@
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
-<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">energy_fit</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fit of the energy diagram with the exponential decay function</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="n">energy_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">energy_err</span> <span class="k">for</span> <span class="n">energy_err</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_error_list</span><span class="p">]</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;propagate&#39;</span><span class="p">)</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_energy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_list</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">energy_weight</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="c1"># print(cls.result_energy.fit_report())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">fit_report</span><span class="p">())</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">c_err</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">result_energy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">stderr</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -2158,10 +2237,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
@@ -2182,13 +2258,16 @@ Args:
 <span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
-<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">energy_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">gas</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a diagram of the energy of the alpha particle against the path length for a certain gas</span>
 <span class="sd">    Args:</span>
 <span class="sd">        gas: Name of the gas that is being used </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">cls</span><span class="o">.</span><span class="n">energy_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+    <span class="c1"># cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">energy_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
 
@@ -2235,57 +2314,47 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
 <span class="normal">369</span>
-<span class="normal">370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">energy_plot_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the (energy, path length) diagram for all gasses</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(E,x)_diagram_all.png&quot;</span><span class="p">)</span>
 
     <span class="c1"># plot continous functions</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in air&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in argon&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in helium&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in air&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in argon&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Energy in helium&#39;</span><span class="p">)</span>
 
     <span class="c1"># plot data points</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured energy&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-
-    <span class="c1"># plot functions in measured range</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range air&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range argon&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Energy in measured range helium&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
@@ -2541,10 +2610,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
@@ -2553,7 +2619,10 @@ Args:
 <span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
-<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">path_length_err</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pressure</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pressure_error</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the error of the path length based on the pressure error</span>
 
@@ -2890,10 +2959,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
@@ -2902,7 +2968,10 @@ Args:
 <span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
-<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pressure_to_path_length</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pressure</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given pressure to a path length</span>
 
@@ -2915,6 +2984,75 @@ Args:
 
     <span class="n">path_length</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">standard_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">pressure</span><span class="o">/</span><span class="bp">cls</span><span class="o">.</span><span class="n">standard_pressure</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">path_length</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="src.alpha.alpha_ray.Measurement.range_err" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">range_err</span><span class="p">()</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>gives the error on the range of an alpha particle in the certain</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the error on the range in a certain gas</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">range_err</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;gives the error on the range of an alpha particle in the certain</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the error on the range in a certain gas</span>
+<span class="sd">    &quot;&quot;&quot;</span>        
+    <span class="n">range_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">))</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">c_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">))</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="o">/</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">range_error</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -2943,20 +3081,20 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Saves the data of the different gasses</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
@@ -2970,6 +3108,127 @@ Args:
 
     <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">)</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">energy_gas_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">energy_error_list</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="src.alpha.alpha_ray.Measurement.stopping_power_err" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">stopping_power_err</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_err</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>gives the error on the stopping power by using the error propagation formula</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>x</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the path length</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>x_err</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the error on the path length</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the error on the stopping power at a certain path length</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">stopping_power_err</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;gives the error on the stopping power by using the error propagation formula</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: the path length</span>
+<span class="sd">        x_err: the error on the path length</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the error on the stopping power at a certain path length</span>
+<span class="sd">    &quot;&quot;&quot;</span>       
+    <span class="n">stopping_power_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">b_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="o">**</span><span class="n">x</span> <span class="o">*</span> <span class="n">x_err</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stopping_power_error</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -3052,10 +3311,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
@@ -3064,7 +3320,10 @@ Args:
 <span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
-<span class="normal">301</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">stopping_power_function</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Stopping power function, which is the negative derivative of the energy function with respect to the path length. That is: S(x) = - dE/dx</span>
 
@@ -3135,30 +3394,32 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">stopping_power_plot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">gas</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the stopping power against the path length for a certain gas</span>
 
@@ -3166,10 +3427,12 @@ Args:
 <span class="sd">        gas: Name of the gas that is being used</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">]</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_error</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_err</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_err</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_err</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">)]</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>    
     <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">exp_decay</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">]</span>
+
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(S,x)_diagram_</span><span class="si">{</span><span class="n">gas</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>  
+    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_error</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_error</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>  
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_continuous</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_continuous</span><span class="p">,</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;S(x) = dE/dx = ln(b)*a*b^x&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_list</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_list</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power function&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
@@ -3210,31 +3473,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
@@ -3242,26 +3481,40 @@ Args:
 <span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
-<span class="normal">404</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">stopping_power_plot_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the (stopping power, path length) diagram for all gasses</span>
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(S,x)_diagram_all.png&quot;</span><span class="p">)</span>
 
     <span class="c1"># plot continuous functions</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in air&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;salmon&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in argon&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in helium&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in air&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in argon&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_continuous</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stopping power in helium&#39;</span><span class="p">)</span>
 
     <span class="c1"># plot data points</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Calculated stopping power of measured data&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-
-    <span class="c1"># plot functions in measured range</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range air&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range argon&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stopping power in measured range helium&#39;</span><span class="p">)</span>        
+    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">stopping_power_gas_data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">path_length_gas_error</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>        
 
 
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -3357,10 +3610,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
@@ -3368,7 +3618,10 @@ Args:
 <span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
-<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">volt_to_energy</span><span class="p">(</span><span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a voltage to an energy value</span>
 
@@ -3413,26 +3666,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">441</span>
 <span class="normal">442</span>
 <span class="normal">443</span>
 <span class="normal">444</span>
@@ -3466,7 +3700,26 @@ Args:
 <span class="normal">472</span>
 <span class="normal">473</span>
 <span class="normal">474</span>
-<span class="normal">475</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_air</span><span class="p">():</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_air</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the experiment with different pressures in air</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -3516,7 +3769,7 @@ Args:
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_fit</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;air&#39;</span><span class="p">)</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">stopping_power_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;air&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in air with atmosiferic pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in air with atmosiferic pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">range_err</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
 
     <span class="n">Measurement</span><span class="o">.</span><span class="n">save_data</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -3544,26 +3797,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">496</span>
 <span class="normal">497</span>
 <span class="normal">498</span>
 <span class="normal">499</span>
@@ -3589,7 +3823,26 @@ Args:
 <span class="normal">519</span>
 <span class="normal">520</span>
 <span class="normal">521</span>
-<span class="normal">522</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_argon</span><span class="p">():</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_argon</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the experiment with different pressures in argon</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -3631,7 +3884,7 @@ Args:
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_fit</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;argon&#39;</span><span class="p">)</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">stopping_power_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;argon&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in argon with atmospheric pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in argon with atmospheric pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">range_err</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
 
     <span class="n">Measurement</span><span class="o">.</span><span class="n">save_data</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -3659,26 +3912,7 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
@@ -3732,7 +3966,26 @@ Args:
 <span class="normal">594</span>
 <span class="normal">595</span>
 <span class="normal">596</span>
-<span class="normal">597</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_helium</span><span class="p">():</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">measurement_helium</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the experiment with different pressures in helium</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -3802,7 +4055,7 @@ Args:
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_fit</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">energy_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;helium&#39;</span><span class="p">)</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">stopping_power_plot</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="s1">&#39;helium&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in helium with atmospheric pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The range of an alpha particle in helium with atmospheric pressure is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">alpha_range</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">Measurement</span><span class="o">.</span><span class="n">range_err</span><span class="p">(),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
 
     <span class="n">Measurement</span><span class="o">.</span><span class="n">save_data</span><span class="p">()</span>
     <span class="n">Measurement</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -3830,15 +4083,15 @@ Args:
 
           <details class="quote">
             <summary>Source code in <code>src\alpha\alpha_ray.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs measurements with different gasses</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">measurement_air</span><span class="p">()</span>
@@ -3901,7 +4154,7 @@ Args:
     <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   </body>

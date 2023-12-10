@@ -208,10 +208,13 @@ class Measurement:
         energy_weight = [1/energy_err for energy_err in cls.energy_error_list]
         cls.model_energy = models.Model(cls.exp_decay, nan_policy='propagate')
         cls.result_energy = cls.model_energy.fit(cls.energy_list, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
-        # print(cls.result_energy.fit_report())
+        print(cls.result_energy.fit_report())
         cls.a = cls.result_energy.params['a'].value
         cls.b = cls.result_energy.params['b'].value
         cls.c = cls.result_energy.params['c'].value
+        cls.a_err = cls.result_energy.params['a'].stderr
+        cls.b_err = cls.result_energy.params['b'].stderr
+        cls.c_err = cls.result_energy.params['c'].stderr
 
 
     @classmethod
@@ -220,7 +223,7 @@ class Measurement:
         Args:
             gas: Name of the gas that is being used 
         """
-        cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
+        # cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
         cls.path_length_continuous = np.arange(0, 4, 0.01)
         cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
 
@@ -301,6 +304,30 @@ class Measurement:
         return stopping_power
     
     @classmethod
+    def stopping_power_err(cls, x: float, x_err: float) -> float:
+        """gives the error on the stopping power by using the error propagation formula
+
+        Args:
+            x: the path length
+            x_err: the error on the path length
+
+        Returns:
+            the error on the stopping power at a certain path length
+        """       
+        stopping_power_error = np.sqrt((cls.b**x * np.log(cls.b) * cls.a_err)**2 + ((cls.a * x * cls.b**(x-1) * np.log(cls.b) + cls.a * cls.b**(x-1))*cls.b_err)**2 + (cls.a * np.log(cls.b)**2 * cls.b**x * x_err)**2)
+        return stopping_power_error
+    
+    @classmethod
+    def range_err(cls) -> float:
+        """gives the error on the range of an alpha particle in the certain
+
+        Returns:
+            the error on the range in a certain gas
+        """        
+        range_error = np.sqrt((1/(cls.c * np.log(cls.b)) * cls.c_err)**2 + (1/(cls.a * np.log(cls.b)) * cls.a_err)**2 + (np.log(cls.c/cls.a)/(cls.b * np.log(cls.b)**2 ) * cls.b_err)**2)
+        return range_error
+
+    @classmethod
     def stopping_power_plot(cls, gas: str):
         """Plots the stopping power against the path length for a certain gas
 
@@ -308,10 +335,12 @@ class Measurement:
             gas: Name of the gas that is being used
         """
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
+        cls.stopping_power_error = [cls.stopping_power_err(x, x_err) for x, x_err in zip(cls.path_length_list, cls.path_length_error)]
         cls.path_length_continuous = np.arange(0, 4, 0.01)    
         cls.stopping_power_continuous = [cls.stopping_power_function(num) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
+        
         fig = plt.figure(f"(S,x)_diagram_{gas}.png")
-        plt.errorbar(cls.path_length_list, cls.stopping_power_list, xerr=cls.path_length_error, fmt='bo', ecolor='k', label='Calculated stopping power of measured data')  
+        plt.errorbar(cls.path_length_list, cls.stopping_power_list, xerr=cls.path_length_error, yerr=cls.stopping_power_error, fmt='bo', ecolor='k', label='Calculated stopping power of measured data')  
         plt.plot(cls.path_length_continuous, cls.stopping_power_continuous, 'g-', label=f'S(x) = dE/dx = ln(b)*a*b^x')
         plt.plot(cls.path_length_list, cls.stopping_power_list, c='red', label='Stopping power function')
         plt.xlim(0,4)
@@ -343,19 +372,14 @@ class Measurement:
         fig = plt.figure(f"(E,x)_diagram_all.png")
 
         # plot continous functions
-        plt.plot(cls.path_length_gas_continuous[0], cls.energy_gas_continuous[0], 'cyan', label=f'Energy in air')
-        plt.plot(cls.path_length_gas_continuous[1], cls.energy_gas_continuous[1], 'salmon', label=f'Energy in argon')
-        plt.plot(cls.path_length_gas_continuous[2], cls.energy_gas_continuous[2], 'springgreen', label=f'Energy in helium')
+        plt.plot(cls.path_length_gas_continuous[0], cls.energy_gas_continuous[0], 'b-', label=f'Energy in air')
+        plt.plot(cls.path_length_gas_continuous[1], cls.energy_gas_continuous[1], 'r-', label=f'Energy in argon')
+        plt.plot(cls.path_length_gas_continuous[2], cls.energy_gas_continuous[2], 'g-', label=f'Energy in helium')
 
         # plot data points
         plt.errorbar(cls.path_length_gas_data[0], cls.energy_gas_data[0], xerr=cls.path_length_gas_error[0], yerr=cls.energy_gas_error[0], fmt='bo', ecolor='k', label='Measured energy')
-        plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], xerr=cls.path_length_gas_error[1], yerr=cls.energy_gas_error[1], fmt='bo', ecolor='k')
-        plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], xerr=cls.path_length_gas_error[2], yerr=cls.energy_gas_error[2], fmt='bo', ecolor='k')
-
-        # plot functions in measured range
-        plt.plot(cls.path_length_gas_data[0], cls.energy_gas_data[0], 'darkblue', label='Energy in measured range air')
-        plt.plot(cls.path_length_gas_data[1], cls.energy_gas_data[1], 'darkred', label='Energy in measured range argon')
-        plt.plot(cls.path_length_gas_data[2], cls.energy_gas_data[2], 'darkgreen', label='Energy in measured range helium')
+        plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], xerr=cls.path_length_gas_error[1], yerr=cls.energy_gas_error[1], fmt='ro', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], xerr=cls.path_length_gas_error[2], yerr=cls.energy_gas_error[2], fmt='go', ecolor='k')
 
         plt.xlim(0, 4)
         plt.ylim(0, 6)
@@ -376,19 +400,14 @@ class Measurement:
         fig = plt.figure(f"(S,x)_diagram_all.png")
 
         # plot continuous functions
-        plt.plot(cls.path_length_gas_continuous[0], cls.stopping_power_gas_continuous[0], 'cyan', label=f'Stopping power in air')
-        plt.plot(cls.path_length_gas_continuous[1], cls.stopping_power_gas_continuous[1], 'salmon', label=f'Stopping power in argon')
-        plt.plot(cls.path_length_gas_continuous[2], cls.stopping_power_gas_continuous[2], 'springgreen', label=f'Stopping power in helium')
+        plt.plot(cls.path_length_gas_continuous[0], cls.stopping_power_gas_continuous[0], 'b-', label=f'Stopping power in air')
+        plt.plot(cls.path_length_gas_continuous[1], cls.stopping_power_gas_continuous[1], 'r-', label=f'Stopping power in argon')
+        plt.plot(cls.path_length_gas_continuous[2], cls.stopping_power_gas_continuous[2], 'g-', label=f'Stopping power in helium')
 
         # plot data points
         plt.errorbar(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], xerr=cls.path_length_gas_error[0] , fmt='bo', ecolor='k', label='Calculated stopping power of measured data')
-        plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], xerr=cls.path_length_gas_error[1] , fmt='bo', ecolor='k')
-        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='bo', ecolor='k')
-
-        # plot functions in measured range
-        plt.plot(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], 'darkblue', label='Stopping power in measured range air')
-        plt.plot(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], 'darkred', label='Stopping power in measured range argon')
-        plt.plot(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], 'darkgreen', label='Stopping power in measured range helium')        
+        plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], xerr=cls.path_length_gas_error[1] , fmt='ro', ecolor='k')
+        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='go', ecolor='k')        
 
 
         plt.xlim(0, 4)
@@ -469,7 +488,7 @@ def measurement_air():
     Measurement.energy_fit()
     Measurement.energy_plot(gas='air')
     Measurement.stopping_power_plot(gas='air')
-    print(f"The range of an alpha particle in air with atmosiferic pressure is {round(Measurement.alpha_range(), 2)} cm")
+    print(f"The range of an alpha particle in air with atmosiferic pressure is {round(Measurement.alpha_range(), 2)} ± {round(Measurement.range_err(), 2)} cm")
 
     Measurement.save_data()
     Measurement.clear()
@@ -516,7 +535,7 @@ def measurement_argon():
     Measurement.energy_fit()
     Measurement.energy_plot(gas='argon')
     Measurement.stopping_power_plot(gas='argon')
-    print(f"The range of an alpha particle in argon with atmospheric pressure is {round(Measurement.alpha_range(), 2)} cm")
+    print(f"The range of an alpha particle in argon with atmospheric pressure is {round(Measurement.alpha_range(), 2)} ± {round(Measurement.range_err(), 2)} cm")
 
     Measurement.save_data()
     Measurement.clear()
@@ -591,7 +610,7 @@ def measurement_helium():
     Measurement.energy_fit()
     Measurement.energy_plot(gas='helium')
     Measurement.stopping_power_plot(gas='helium')
-    print(f"The range of an alpha particle in helium with atmospheric pressure is {round(Measurement.alpha_range(), 2)} cm")
+    print(f"The range of an alpha particle in helium with atmospheric pressure is {round(Measurement.alpha_range(), 2)} ± {round(Measurement.range_err(), 2)} cm")
 
     Measurement.save_data()
     Measurement.clear()
