@@ -31,7 +31,7 @@ class Measurement:
     energy_alpha_init = 5.48 # Mev
 
     standard_length = 3 # physical distance to the detector in cm 
-    standard_pressure = 1 # in bar
+    standard_pressure = 1.01325 # = 1 atm in bar
 
     energy_list = []
     energy_error_list = []
@@ -208,7 +208,7 @@ class Measurement:
         energy_weight = [1/energy_err for energy_err in cls.energy_error_list]
         cls.model_energy = models.Model(cls.exp_decay, nan_policy='propagate')
         cls.result_energy = cls.model_energy.fit(cls.energy_list, x=cls.path_length_list, weights=energy_weight, a=0.1, b=5, c=2)
-        print(cls.result_energy.fit_report())
+        # print(cls.result_energy.fit_report())
         cls.a = cls.result_energy.params['a'].value
         cls.b = cls.result_energy.params['b'].value
         cls.c = cls.result_energy.params['c'].value
