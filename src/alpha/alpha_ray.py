@@ -319,7 +319,7 @@ class Measurement:
     
     @classmethod
     def range_err(cls) -> float:
-        """gives the error on the range of an alpha particle in the certain
+        """gives the error on the range of an alpha particle in a certain gas
 
         Returns:
             the error on the range in a certain gas
