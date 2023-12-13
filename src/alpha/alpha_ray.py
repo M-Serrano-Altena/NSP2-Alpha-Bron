@@ -224,7 +224,7 @@ class Measurement:
             gas: Name of the gas that is being used 
         """
         # cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
-        cls.path_length_continuous = np.arange(0, 4, 0.01)
+        cls.path_length_continuous = np.arange(0, 5, 0.01)
         cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
 
         fig = plt.figure(f"(E,x)_diagram_{gas}.png")
@@ -336,7 +336,7 @@ class Measurement:
         """
         cls.stopping_power_list = [cls.stopping_power_function(num) for num in cls.path_length_list]
         cls.stopping_power_error = [cls.stopping_power_err(x, x_err) for x, x_err in zip(cls.path_length_list, cls.path_length_error)]
-        cls.path_length_continuous = np.arange(0, 4, 0.01)    
+        cls.path_length_continuous = np.arange(0, 5, 0.01)    
         cls.stopping_power_continuous = [cls.stopping_power_function(num) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
         
         fig = plt.figure(f"(S,x)_diagram_{gas}.png")
@@ -381,7 +381,7 @@ class Measurement:
         plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], xerr=cls.path_length_gas_error[1], yerr=cls.energy_gas_error[1], fmt='ro', ecolor='k')
         plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], xerr=cls.path_length_gas_error[2], yerr=cls.energy_gas_error[2], fmt='go', ecolor='k')
 
-        plt.xlim(0, 4)
+        plt.xlim(0, 4.5)
         plt.ylim(0, 6)
         plt.xlabel("Path length (cm)")
         plt.ylabel("Energy (MeV)")
@@ -410,8 +410,8 @@ class Measurement:
         plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='go', ecolor='k')        
 
 
-        plt.xlim(0, 4)
-        plt.ylim(0, 12.5)
+        plt.xlim(0, 4.5)
+        plt.ylim(0, 10)
         plt.xlabel("Path length (cm)")
         plt.ylabel("Stopping power (MeV/cm)")
         plt.legend(loc='upper left')
@@ -500,9 +500,9 @@ def measurement_argon():
     argon_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
     argon_end_list = [22, 117, 215, 317, 417, 526, 627, 756]
 
-    argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
-    argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # argon_vacuum.data_plot()
+    # argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
+    # argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # # argon_vacuum.data_plot()
 
     argon_100mbar = Measurement("meting 4- alfa bron argon 100 mbar.csv", end_point=1000, pressure_start = argon_start_list[1], pressure_end=argon_end_list[1])
     argon_100mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.13)
@@ -544,16 +544,16 @@ def measurement_helium():
     """Runs the experiment with different pressures in helium
     """
 
-    helium_start_list = [20, 49, 99, 149, 199, 249, 299, 399, 349, 399, 449, 499, 549, 599, 649, 699]
+    helium_start_list = [20, 49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649, 699]
     helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470, 521, 581, 627, 677, 737]
 
-    argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
-    argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # argon_vacuum.data_plot()
+    # argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
+    # argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # # argon_vacuum.data_plot()
 
-    helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
-    helium_50mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # helium_50mbar.data_plot()
+    # helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
+    # helium_50mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # # helium_50mbar.data_plot()
 
     helium_100mbar = Measurement("meting 5- alfa bron helium 100 mbar.csv", end_point=1000, pressure_start = helium_start_list[2], pressure_end=helium_end_list[2])
     helium_100mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
