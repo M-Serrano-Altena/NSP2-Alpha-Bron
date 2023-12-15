@@ -94,6 +94,8 @@ class Measurement:
     def pressure_mean(pressure_start: int, pressure_end: int) -> int:
         """Calculate the mean of the start and end pressure
 
+        $$P_{mean} = \\frac {P_{start} + P_{end}}{2}$$
+
         Args:
             pressure_start: The pressure of the gas at the beginning of a measurement in mbar
             pressure_end: The pressure of the gas at the end of a measurement in mbar
@@ -107,6 +109,8 @@ class Measurement:
     @staticmethod
     def pressure_err(pressure_start: int, pressure_end: int) -> int:
         """Calculates the error of the mean pressure
+
+        $$P_{err} = P_{end} - P_{mean}$$
 
         Args:
             pressure_start: The pressure of the gas at the beginning of a measurement in mbar
@@ -186,6 +190,8 @@ class Measurement:
     def exp_decay(x: float, a: float, b:float, c: float) -> float:
             """Exponential decay function to fit for the (energy, path length) diagram
 
+            $$E(x) = c - a b^x$$
+
             Args:
                 x: The path length
                 a: A constant times the exponential
@@ -217,9 +223,11 @@ class Measurement:
     @classmethod
     def energy_plot(cls, gas: str):
         """Plot a diagram of the energy of the alpha particle against the path length for a certain gas
+
         Args:
             gas: Name of the gas that is being used 
         """
+  
         # cls.energy_list = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) for num in cls.path_length_list]
         cls.path_length_continuous = np.arange(0, 5, 0.01)
         cls.energy_continuous = [cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) if cls.exp_decay(num, a=cls.a, b=cls.b, c=cls.c) > 0 else 0 for num in cls.path_length_continuous]
@@ -242,12 +250,20 @@ class Measurement:
     
     def calc_conversion_factor(self):
         """Calculate the conversion factor to go from a voltage to an energy. Is only run with a vacuum measurement
+
+        $$ a = \\frac{E_0}{V} $$
+
+        where $E_0$ is the initial energy of the alpha particle, which equals 5.48 MeV, and V is the voltage at vacuum.
         """        
         Measurement.conversion_factor = Measurement.energy_alpha_init/self.fit_gauss1mu
 
     @staticmethod
     def volt_to_energy(voltage: float) -> float:
         """Converts a voltage to an energy value
+
+        $$ E = a V, $$
+
+        where $a$ is the conversion factor
 
         Args:
             voltage: Voltage measured by the detector
@@ -261,6 +277,8 @@ class Measurement:
     @classmethod
     def pressure_to_path_length(cls, pressure: float) -> float:
         """Converts a given pressure to a path length
+
+        $$x = x_0 \sqrt[3]{\\frac{P}{P_0}}$$
 
         Args:
             pressure: Pressure of the measurement in bar
@@ -276,6 +294,8 @@ class Measurement:
     def path_length_err(cls, pressure: float, pressure_error: float) -> float:
         """Calculates the error of the path length based on the pressure error
 
+        $$\Delta x = \\frac{x_0 \Delta P}{3\sqrt[3]{P^2 P_0}}$$
+
         Args:
             pressure: Mean pressure of the measurement in bar
             pressure_error: Error of the pressure in bar
@@ -288,7 +308,11 @@ class Measurement:
     
     @classmethod
     def stopping_power_function(cls, x: float) -> float:
-        """Stopping power function, which is the negative derivative of the energy function with respect to the path length. That is: S(x) = - dE/dx
+        """Stopping power function, which is the negative derivative of the energy function with respect to the path length.
+
+        $$S(x) = - \\frac{dE}{dx} = a \ln{(b)} b^x,$$
+
+        where a and b are calculated from the energy fit
 
         Args:
             x: The path length
@@ -304,6 +328,8 @@ class Measurement:
     def stopping_power_err(cls, x: float, x_err: float) -> float:
         """gives the error on the stopping power by using the error propagation formula
 
+        $$\Delta S = \sqrt{\\left(b^x \ln{(b)} \Delta a\\right)^2 + \\left(a x b^{x-1} \ln{(b)} + a b^{x-1})\Delta b \\right)^2 + \\left(a \ln{(b)}^2 b^x \Delta x \\right)^2}$$
+
         Args:
             x: the path length
             x_err: the error on the path length
@@ -317,6 +343,8 @@ class Measurement:
     @classmethod
     def range_err(cls) -> float:
         """gives the error on the range of an alpha particle in a certain gas
+
+        $$\Delta d = \sqrt{\\left(\\frac{\Delta c}{c \ln{(b)}} \\right)^2 + \\left(\\frac{\Delta a}{a \ln{(b)}} \\right)^2 + \\left(\\frac{\Delta \ln({\\frac{c}{a})} }{b \ln{(b)}^2}\\right)^2}$$
 
         Returns:
             the error on the range in a certain gas
@@ -354,6 +382,10 @@ class Measurement:
     @classmethod
     def alpha_range(cls) -> float:
         """Calculate the range of an alpha particle at atmospheric pressure
+
+        $$d = \\frac{\ln{\left(\\frac{c}{a}\\right)}}{\ln{(b)}}, $$
+
+        where a, b and c are calculated by the energy fit.
 
         Returns:
             The range of the alpha particle
@@ -625,7 +657,7 @@ def measurement_helium():
     Measurement.clear()
 
 def run():
-    """Runs measurements with different gasses
+    """Runs measurements with different gasses and makes a combined (E,x) and (S,x) plot for all gasses.
     """    
     measurement_air()
     measurement_argon()
