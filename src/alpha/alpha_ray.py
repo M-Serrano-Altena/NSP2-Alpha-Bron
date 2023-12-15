@@ -20,7 +20,6 @@ python_file_path = os.getcwd()
 
 class Measurement:
 
-    pressure_list = []
     path_length_list = []
     path_length_error = []
 
@@ -59,9 +58,8 @@ class Measurement:
             pressure_end: The pressure of the gas at the end of a measurement in mbar
         """
         # 1/1000 --> pressure to bar
-        self.pressure = self.pressure_mean(pressure_start, pressure_end)/1000 
-        self.pressure_error = self.pressure_err(pressure_start, pressure_end)/1000
-        Measurement.pressure_list.append(self.pressure)
+        self.pressure = self.pressure_mean(pressure_start, pressure_end) / 1000 
+        self.pressure_error = self.pressure_err(pressure_start, pressure_end) / 1000
         Measurement.path_length_list.append(Measurement.pressure_to_path_length(self.pressure))
         Measurement.path_length_error.append(Measurement.path_length_err(pressure=self.pressure, pressure_error=self.pressure_error))
 
@@ -82,7 +80,6 @@ class Measurement:
     def clear(cls):
         """Clears lists to get empty lists for the next gas
         """        
-        cls.pressure_list = []
         cls.path_length_list = []
         cls.path_length_error = []
 
@@ -232,7 +229,7 @@ class Measurement:
         plt.plot(cls.path_length_continuous, cls.energy_continuous, 'g', label=f'E(x) = c - a*b^x')
         plt.plot(cls.path_length_list, cls.result_energy.best_fit, 'r', label=f'Energy fit in measured range')
         plt.xlim(0,4.5)
-        plt.ylim(0,6)
+        plt.ylim(0,6.5)
         plt.xlabel('Path length (cm)')
         plt.ylabel('Energy (MeV)')
         plt.legend(loc='lower left')
@@ -381,8 +378,11 @@ class Measurement:
         plt.errorbar(cls.path_length_gas_data[1], cls.energy_gas_data[1], xerr=cls.path_length_gas_error[1], yerr=cls.energy_gas_error[1], fmt='ro', ecolor='k')
         plt.errorbar(cls.path_length_gas_data[2], cls.energy_gas_data[2], xerr=cls.path_length_gas_error[2], yerr=cls.energy_gas_error[2], fmt='go', ecolor='k')
 
+        # plot omitted data
+        plt.errorbar(cls.path_length_omit, cls.energy_omit, xerr=cls.path_length_error_omit, yerr=cls.energy_error_omit, linestyle='None', marker='o', c='lime', ecolor='black', label='Measured data not used in fit')  
+
         plt.xlim(0, 4.5)
-        plt.ylim(0, 6)
+        plt.ylim(0, 6.5)
         plt.xlabel("Path length (cm)")
         plt.ylabel("Energy (MeV)")
         plt.legend(loc='lower left')
@@ -407,9 +407,8 @@ class Measurement:
         # plot data points
         plt.errorbar(cls.path_length_gas_data[0], cls.stopping_power_gas_data[0], xerr=cls.path_length_gas_error[0] , fmt='bo', ecolor='k', label='Calculated stopping power of measured data')
         plt.errorbar(cls.path_length_gas_data[1], cls.stopping_power_gas_data[1], xerr=cls.path_length_gas_error[1] , fmt='ro', ecolor='k')
-        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='go', ecolor='k')        
-
-
+        plt.errorbar(cls.path_length_gas_data[2], cls.stopping_power_gas_data[2], xerr=cls.path_length_gas_error[2] , fmt='go', ecolor='k')
+      
         plt.xlim(0, 4.5)
         plt.ylim(0, 10)
         plt.xlabel("Path length (cm)")
@@ -500,9 +499,11 @@ def measurement_argon():
     argon_start_list = [20, 98, 199, 299, 399, 499, 599, 699]
     argon_end_list = [22, 117, 215, 317, 417, 526, 627, 756]
 
-    # argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
-    # argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # # argon_vacuum.data_plot()
+    argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = argon_start_list[0], pressure_end=argon_end_list[0])
+    argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+
+    # to calculate the conversion factor, but not use this data point in the energy fit
+    Measurement.clear()
 
     argon_100mbar = Measurement("meting 4- alfa bron argon 100 mbar.csv", end_point=1000, pressure_start = argon_start_list[1], pressure_end=argon_end_list[1])
     argon_100mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.13)
@@ -547,13 +548,21 @@ def measurement_helium():
     helium_start_list = [20, 49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649, 699]
     helium_end_list = [22, 64, 115, 166, 215, 267, 315, 367, 417, 470, 521, 581, 627, 677, 737]
 
-    # argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
-    # argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # # argon_vacuum.data_plot()
+    argon_vacuum = Measurement("meting 4- alfa bron argon 21 mbar.csv", end_point=1000, pressure_start = helium_start_list[0], pressure_end=helium_end_list[0])
+    argon_vacuum.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # argon_vacuum.data_plot()
 
-    # helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
-    # helium_50mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
-    # # helium_50mbar.data_plot()
+    helium_50mbar = Measurement("meting 5- alfa bron helium 50 mbar.csv", end_point=1000, pressure_start = helium_start_list[1], pressure_end=helium_end_list[1])
+    helium_50mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
+    # helium_50mbar.data_plot()
+
+    # to show the two omited data points independantly and not use them in the energy fit
+    Measurement.energy_omit = Measurement.energy_list
+    Measurement.path_length_omit = Measurement.path_length_list
+    Measurement.energy_error_omit = Measurement.energy_error_list
+    Measurement.path_length_error_omit = Measurement.path_length_error
+
+    Measurement.clear()
 
     helium_100mbar = Measurement("meting 5- alfa bron helium 100 mbar.csv", end_point=1000, pressure_start = helium_start_list[2], pressure_end=helium_end_list[2])
     helium_100mbar.data_fit(start_expmu=0.01, start_gauss1_mu=0.15)
@@ -621,7 +630,7 @@ def run():
     measurement_air()
     measurement_argon()
     measurement_helium()
-
+    
     Measurement.energy_plot_all()
     Measurement.stopping_power_plot_all()
 
