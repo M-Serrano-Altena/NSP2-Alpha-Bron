@@ -19,6 +19,8 @@ python_file_path = os.getcwd()
 
 
 class Measurement:
+    """class that does the data analysis of the experiment
+    """    
 
     path_length_list = []
     path_length_error = []
