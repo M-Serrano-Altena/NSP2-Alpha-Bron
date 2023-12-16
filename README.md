@@ -21,6 +21,10 @@ In the 'alpha' environment:
 ```
 poetry install
 ```
+To run the data analysis, type in the 'alpha' environment:
+```
+alpha
+```
 
 ## Install poetry
 If poetry isn't installed:
